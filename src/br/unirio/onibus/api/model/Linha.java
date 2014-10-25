@@ -1,7 +1,5 @@
 package br.unirio.onibus.api.model;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import lombok.Getter;
 
@@ -27,17 +25,17 @@ public class Linha
 	/**
 	 * Trajeto de ida do ônibus
 	 */
-	private List<PosicaoTrajeto> trajetoIda;
+	private @Getter Trajeto trajetoIda;
 	
 	/**
 	 * Trajeto de volta do ônibus
 	 */
-	private List<PosicaoTrajeto> trajetoVolta;
+	private @Getter Trajeto trajetoVolta;
 	
 	/**
 	 * Pontos de parada do ônibus
 	 */
-	private List<PosicaoTrajeto> pontosParada;
+	private @Getter Trajeto pontosParada;
 	
 	/**
 	 * Inicializa a linha
@@ -46,9 +44,9 @@ public class Linha
 	{
 		this.identificador = identificador;
 		this.veiculos = new HashMap<String, Veiculo>();
-		this.trajetoIda = new ArrayList<PosicaoTrajeto>();
-		this.trajetoVolta = new ArrayList<PosicaoTrajeto>();
-		this.pontosParada = new ArrayList<PosicaoTrajeto>();
+		this.trajetoIda = new Trajeto();
+		this.trajetoVolta = new Trajeto();
+		this.pontosParada = new Trajeto();
 	}
 
 	/**
@@ -110,7 +108,7 @@ public class Linha
 	 */
 	public void adicionaTrajetoIda(double latitude, double longitude) 
 	{
-		adicionaTrajeto(trajetoIda, latitude, longitude); 
+		trajetoIda.adiciona(latitude, longitude); 
 	}
 
 	/**
@@ -118,51 +116,7 @@ public class Linha
 	 */
 	public void adicionaTrajetoVolta(double latitude, double longitude) 
 	{
-		adicionaTrajeto(trajetoVolta, latitude, longitude); 
-	}
-
-	/**
-	 * Adiciona uma posição em um trajeto do ônibus
-	 */
-	private void adicionaTrajeto(List<PosicaoTrajeto> trajeto, double latitude, double longitude) 
-	{
-		for (PosicaoTrajeto posicao : trajeto)
-			if (posicao.igual(latitude, longitude))
-				return;
-		
-		trajeto.add(new PosicaoTrajeto(latitude, longitude));
-	}
-
-	/**
-	 * Retorna o número de posições do trajeto de ida
-	 */
-	public int contaPosicoesTrajetoIda() 
-	{
-		return trajetoIda.size();
-	}
-	
-	/**
-	 * Retorna a sequência de posições do trajeto de ida
-	 */
-	public Iterable<PosicaoTrajeto> getTrajetoIda() 
-	{
-		return trajetoIda;
-	}
-	
-	/**
-	 * Retorna o número de posições do trajeto de volta
-	 */
-	public int contaPosicoesTrajetoVolta() 
-	{
-		return trajetoVolta.size();
-	}
-	
-	/**
-	 * Retorna a sequência de posições do trajeto de volta
-	 */
-	public Iterable<PosicaoTrajeto> getTrajetoVolta() 
-	{
-		return trajetoVolta;
+		trajetoVolta.adiciona(latitude, longitude); 
 	}
 
 	/**
@@ -170,26 +124,6 @@ public class Linha
 	 */
 	public void adicionaParada(double latitude, double longitude) 
 	{
-		for (PosicaoTrajeto posicao : pontosParada)
-			if (posicao.igual(latitude, longitude))
-				return;
-		
-		pontosParada.add(new PosicaoTrajeto(latitude, longitude));
-	}
-
-	/**
-	 * Retorna o número de pontos de parada da linha
-	 */
-	public int contaPosicoesParada() 
-	{
-		return pontosParada.size();
-	}
-	
-	/**
-	 * Retorna a sequência de pontos de parada da linha
-	 */
-	public Iterable<PosicaoTrajeto> getPontosParada() 
-	{
-		return pontosParada;
+		pontosParada.adiciona(latitude, longitude);
 	}
 }
