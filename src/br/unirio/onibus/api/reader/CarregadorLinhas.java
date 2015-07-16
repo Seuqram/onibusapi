@@ -22,7 +22,14 @@ public class CarregadorLinhas
 		NumberFormat nf2 = new DecimalFormat("00");
 		NumberFormat nf4 = new DecimalFormat("0000");
 		String nomeArquivo = diretorio + "\\" + nf4.format(ano) + "\\" + nf2.format(mes) + "\\" + nf4.format(ano) + "-" + nf2.format(mes) + "-" + nf2.format(dia) + ".zip";
-		
+		executa(nomeArquivo, linhas);
+	}
+
+	/**
+	 * Carrega a lista de linhas consideradas em uma data
+	 */
+	public void executa(String nomeArquivo, List<String> linhas) throws Exception
+	{
 	    ZipFile zipFile = new ZipFile(nomeArquivo);
 		Enumeration<? extends ZipEntry> zipEntries = zipFile.entries();
 

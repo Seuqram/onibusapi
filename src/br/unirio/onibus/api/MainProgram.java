@@ -1,11 +1,6 @@
 package br.unirio.onibus.api;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import br.unirio.onibus.api.calc.VerificadorPosicoesVeiculo;
 import br.unirio.onibus.api.model.Linha;
-import br.unirio.onibus.api.reader.CarregadorLinhas;
 import br.unirio.onibus.api.reader.CarregadorPosicoes;
 import br.unirio.onibus.api.reader.CarregadorTrajeto;
 
@@ -13,25 +8,14 @@ public class MainProgram
 {
 	public static final void main(String[] args) throws Exception
 	{
-		int dia = 29;
-		int mes = 4;
-		int ano = 2014;
+		Linha linha = new Linha("107");
 		
-		List<String> linhas = new ArrayList<String>();
-		new CarregadorLinhas().executa("/Users/Marcio/Desktop/Processados", dia, mes, ano, linhas);
-		System.out.println("Numero de linhas na data: " + linhas.size());
-
-		for (String nomeLinha : linhas)
-		{
-			Linha linha = new Linha(nomeLinha);
-			new CarregadorPosicoes().executa("/Users/Marcio/Desktop/Processados", dia, mes, ano, linha);
-			new CarregadorTrajeto().executa("/Users/Marcio/Desktop/Processados", linha);
-			
-			int foraTrajeto = new VerificadorPosicoesVeiculo().executa(linha);
-			
-			if (foraTrajeto > 0)
-				System.out.println(nomeLinha + ": " + foraTrajeto + "/" + linha.contaPosicoes() + " posicoes fora da linha ");
-		}
+		new CarregadorPosicoes().executa("/Users/Marcio/Desktop/2014-12-03.zip", linha);
+		System.out.println("Numero de posições na data: " + linha.contaPosicoes());
+		
+		new CarregadorTrajeto().carregaArquivo("/Users/Marcio/Desktop/107.csv", linha);
+		System.out.println("Numero de posições do trajeto de ida: " + linha.getTrajetoIda().conta());
+		System.out.println("Numero de posições do trajeto de volta: " + linha.getTrajetoVolta().conta());
 		
 		System.out.println("FIM");
 	}

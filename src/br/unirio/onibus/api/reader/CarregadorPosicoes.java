@@ -31,7 +31,14 @@ public class CarregadorPosicoes
 		NumberFormat nf2 = new DecimalFormat("00");
 		NumberFormat nf4 = new DecimalFormat("0000");
 		String nomeArquivo = diretorio + "\\" + nf4.format(ano) + "\\" + nf2.format(mes) + "\\" + nf4.format(ano) + "-" + nf2.format(mes) + "-" + nf2.format(dia) + ".zip";
-		
+		executa(nomeArquivo, linha);
+	}
+
+	/**
+	 * Carrega um arquivo de uma linha de ônibus em uma data
+	 */
+	public void executa(String nomeArquivo, Linha linha) throws Exception
+	{
 	    ZipFile zipFile = new ZipFile(nomeArquivo);
 		Enumeration<? extends ZipEntry> zipEntries = zipFile.entries();
 

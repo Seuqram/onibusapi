@@ -28,7 +28,7 @@ public class Trajeto
 	/**
 	 * Conta o número de posições do trajeto
 	 */
-	public double conta()
+	public int conta()
 	{
 		return posicoesTrajeto.size();
 	}
