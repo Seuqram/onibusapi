@@ -15,14 +15,14 @@ public class Trajeto
 	/**
 	 * Lista de posições do trajeto
 	 */
-	private List<PosicaoTrajeto> posicoesTrajeto;
+	private List<PosicaoMapa> posicoesTrajeto;
 	
 	/**
 	 * Inicializa o trajeto
 	 */
 	public Trajeto()
 	{
-		this.posicoesTrajeto = new ArrayList<PosicaoTrajeto>();
+		this.posicoesTrajeto = new ArrayList<PosicaoMapa>();
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public class Trajeto
 	/**
 	 * Retorna uma posição do trajeto, dado seu índice
 	 */
-	public PosicaoTrajeto pegaPosicaoIndice(int indice)
+	public PosicaoMapa pegaPosicaoIndice(int indice)
 	{
 		return posicoesTrajeto.get(indice);
 	}
@@ -46,17 +46,17 @@ public class Trajeto
 	 */
 	public void adiciona(double latitude, double longitude) 
 	{
-		for (PosicaoTrajeto posicao : posicoesTrajeto)
+		for (PosicaoMapa posicao : posicoesTrajeto)
 			if (posicao.igual(latitude, longitude))
 				return;
 		
-		posicoesTrajeto.add(new PosicaoTrajeto(latitude, longitude));
+		posicoesTrajeto.add(new PosicaoMapa(latitude, longitude));
 	}
 	
 	/**
 	 * Retorna as posições do trajeto
 	 */
-	public Iterable<PosicaoTrajeto> pegaPosicoes()
+	public Iterable<PosicaoMapa> pegaPosicoes()
 	{
 		return posicoesTrajeto;
 	}
@@ -71,11 +71,11 @@ public class Trajeto
 		if (posicoesTrajeto.size() < 2)
 			return menorDistancia;
 		
-		PosicaoTrajeto posicaoAnterior = posicoesTrajeto.get(0);
+		PosicaoMapa posicaoAnterior = posicoesTrajeto.get(0);
 		
 		for (int i = 1; i < posicoesTrajeto.size(); i++)
 		{
-			PosicaoTrajeto posicaoAtual = posicoesTrajeto.get(i);
+			PosicaoMapa posicaoAtual = posicoesTrajeto.get(i);
 			double distancia = Geodesic.trackDistance(latitude, longitude, posicaoAnterior.getLatitude(), posicaoAnterior.getLongitude(), posicaoAtual.getLatitude(), posicaoAtual.getLongitude());
 					
 			if (distancia < menorDistancia)

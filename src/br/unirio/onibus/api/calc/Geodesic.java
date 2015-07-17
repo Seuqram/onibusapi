@@ -4,7 +4,9 @@ public class Geodesic
 {
 	private static final double EARTH_RADIUS = 6371.0; // em Km
 
-	// 
+	/**
+	 * Método usado para calcular a distância entre dois pontos em coordenadas geográficas
+	 */
 	public static double distance(double lat1, double lon1, double lat2, double lon2)
 	{
 		 return distanceHaversine(lat1, lon1, lat2, lon2);
@@ -72,13 +74,27 @@ public class Geodesic
 	}
 
 	/**
-	 * Calcula a menor distância entre um ponto e uma trilha definida por dois pontos
+	 * Calcula a menor distância entre um ponto e uma trilha definida por dois pontos - método mais preciso
 	 */
 	public static double trackDistance(double lat, double lon, double latTrack1, double lonTrack1, double latTrack2, double lonTrack2)
 	{
 		double distance13 = distance(latTrack1, lonTrack1, lat, lon);
 		double bearing13 = bearing(latTrack1, lonTrack1, lat, lon);
 		double bearing12 = bearing(latTrack1, lonTrack1, latTrack2, lonTrack2);
-		return Math.asin(Math.sin(distance13 / EARTH_RADIUS) * Math.sin(Math.toRadians(bearing13 - bearing12))) * EARTH_RADIUS;
+		return Math.abs(Math.asin(Math.sin(distance13 / EARTH_RADIUS) * Math.sin(Math.toRadians(bearing13 - bearing12))) * EARTH_RADIUS);
+	}
+	
+	/**
+	 * Calcula a menor distância entre um ponto e uma trilha definida por dois pontos - aproximação linear
+	 */
+	public static double linearTrackDistance(double lat, double lon, double latTrack1, double lonTrack1, double latTrack2, double lonTrack2) 
+	{
+		double a = (lonTrack2 - lonTrack1) / (latTrack2 - latTrack1);
+		double b = lonTrack1 - a * latTrack1;
+		
+		double ilat = (lon + a * lat - b) / (2 * a);
+		double ilong = a * ilat + b;
+		
+		return Geodesic.distance(lat, lon, ilat, ilong);
 	}
 }

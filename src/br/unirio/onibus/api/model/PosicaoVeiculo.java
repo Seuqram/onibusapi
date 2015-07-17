@@ -8,18 +8,15 @@ import org.joda.time.DateTime;
  * 
  * @author Marcio Barros
  */
-public class PosicaoVeiculo
+public class PosicaoVeiculo extends PosicaoMapa
 {
 	private @Getter DateTime data;
-	private @Getter double latitude;
-	private @Getter double longitude;
 	private @Getter double velocidade;
 	
 	public PosicaoVeiculo(DateTime data, double latitude, double longitude, double velocidade)
 	{
+		super(latitude, longitude);
 		this.data = data;
-		this.latitude = latitude;
-		this.longitude = longitude;
 		this.velocidade = velocidade;
 	}
 }
