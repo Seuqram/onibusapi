@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import br.unirio.onibus.api.calc.Geodesic;
 import br.unirio.onibus.api.model.PosicaoMapa;
+import br.unirio.onibus.api.model.Trajetoria;
 
 /**
  * Classe que reduz o tamanho de uma sequência de posições no mapa
@@ -36,7 +37,7 @@ public class RedutorTrajetoria
 	/**
 	 * Inicializa um redutor de trajetórias
 	 */
-	public RedutorTrajetoria(Iterable<PosicaoMapa> trajetoria)
+	public RedutorTrajetoria(Trajetoria trajetoria)
 	{
 		this();
 		adicionaTrajetoria(trajetoria);
@@ -45,21 +46,21 @@ public class RedutorTrajetoria
 	/**
 	 * Adiciona uma trajetória no redutor
 	 */
-	public void adicionaTrajetoria(Iterable<PosicaoMapa> trajetoria)
+	public void adicionaTrajetoria(Trajetoria trajetoria)
 	{
-		for (PosicaoMapa posicao : trajetoria)
+		for (PosicaoMapa posicao : trajetoria.pegaPosicoes())
 			posicoes.add(new PosicaoReducaoTrajetoria(posicao.getLatitude(), posicao.getLongitude()));
 	}
 	
 	/**
 	 * Retorna o resultado da redução na forma de uma trajetória
 	 */
-	public List<PosicaoMapa> pegaTrajetoria()
+	public Trajetoria pegaTrajetoria()
 	{
-		List<PosicaoMapa> resultado = new ArrayList<PosicaoMapa>();
+		Trajetoria resultado = new Trajetoria();
 		
 		for (PosicaoReducaoTrajetoria posicao : posicoes)
-			resultado.add(new PosicaoMapa(posicao.getLatitude(), posicao.getLongitude()));
+			resultado.adiciona(new PosicaoMapa(posicao.getLatitude(), posicao.getLongitude()));
 		
 		return resultado;
 	}

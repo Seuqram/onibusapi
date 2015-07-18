@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 
 import br.unirio.onibus.api.model.PosicaoMapa;
+import br.unirio.onibus.api.model.Trajetoria;
 
 /**
  * Classe que representa um caminho que pode ser adicionado a um mapa
@@ -16,15 +17,16 @@ public class DecoradorCaminho implements IDecoradorMapas
 	public String cor = "#FF0000";
 	public double opacidade = 1.0;
 	public int largura = 2;
-	public Iterable<PosicaoMapa> posicoes;
-	
+	public Trajetoria trajetoria;
+
 	/**
 	 * Inicializa o decorador
 	 */
-	public DecoradorCaminho(Iterable<PosicaoMapa> posicoes)
+	public DecoradorCaminho(Trajetoria trajetoria) 
 	{
-		this.posicoes = posicoes;
+		this.trajetoria = trajetoria;
 	}
+	
 
 	/**
 	 * Indica o nome do caminho
@@ -70,7 +72,7 @@ public class DecoradorCaminho implements IDecoradorMapas
 	{
 		writer.println("var " + nome + "Coordinates = [");
 		
-		Iterator<PosicaoMapa> iterator = posicoes.iterator();
+		Iterator<PosicaoMapa> iterator = trajetoria.pegaPosicoes().iterator();
 		
 		if (iterator.hasNext())
 		{

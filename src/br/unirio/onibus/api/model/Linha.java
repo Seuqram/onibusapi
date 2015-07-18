@@ -25,17 +25,17 @@ public class Linha
 	/**
 	 * Trajeto de ida do ônibus
 	 */
-	private @Getter Trajeto trajetoIda;
+	private @Getter Trajetoria trajetoIda;
 	
 	/**
 	 * Trajeto de volta do ônibus
 	 */
-	private @Getter Trajeto trajetoVolta;
+	private @Getter Trajetoria trajetoVolta;
 	
 	/**
 	 * Pontos de parada do ônibus
 	 */
-	private @Getter Trajeto pontosParada;
+	private @Getter Trajetoria pontosParada;
 	
 	/**
 	 * Inicializa a linha
@@ -44,9 +44,9 @@ public class Linha
 	{
 		this.identificador = identificador;
 		this.veiculos = new HashMap<String, Veiculo>();
-		this.trajetoIda = new Trajeto();
-		this.trajetoVolta = new Trajeto();
-		this.pontosParada = new Trajeto();
+		this.trajetoIda = new Trajetoria();
+		this.trajetoVolta = new Trajetoria();
+		this.pontosParada = new Trajetoria();
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class Linha
 			veiculos.put(numeroVeiculo, veiculo);
 		}
 		
-		veiculo.adiciona(data, latitude, longitude, velocidade);
+		veiculo.getTrajetoria().adiciona(data, latitude, longitude, velocidade);
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class Linha
 		int count = 0;
 		
 		for (Veiculo veiculo : veiculos.values())
-			count += veiculo.pegaNumeroPosicoes();
+			count += veiculo.getTrajetoria().conta();
 		
 		return count;
 	}
@@ -100,7 +100,7 @@ public class Linha
 	public void ordenaPosicoes() 
 	{
 		for (Veiculo veiculo : veiculos.values())
-			veiculo.ordenaPosicoes();
+			veiculo.getTrajetoria().ordenaPosicoes();
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class Linha
 	 */
 	public void adicionaTrajetoIda(double latitude, double longitude) 
 	{
-		trajetoIda.adiciona(latitude, longitude); 
+		trajetoIda.adiciona(new PosicaoMapa(latitude, longitude));
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class Linha
 	 */
 	public void adicionaTrajetoVolta(double latitude, double longitude) 
 	{
-		trajetoVolta.adiciona(latitude, longitude); 
+		trajetoVolta.adiciona(new PosicaoMapa(latitude, longitude)); 
 	}
 
 	/**
@@ -124,6 +124,6 @@ public class Linha
 	 */
 	public void adicionaParada(double latitude, double longitude) 
 	{
-		pontosParada.adiciona(latitude, longitude);
+		pontosParada.adiciona(new PosicaoMapa(latitude, longitude));
 	}
 }

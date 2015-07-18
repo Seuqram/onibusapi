@@ -49,6 +49,7 @@ public class CarregadorPosicoes
 		}
 
 	    zipFile.close();
+	    linha.ordenaPosicoes();
 	}
 
 	/**
@@ -86,7 +87,7 @@ public class CarregadorPosicoes
 		        	}
 		    	}
 		    }
-
+		    
 		    br.close();
 		    input.close();
 		}
