@@ -1,5 +1,6 @@
 package br.unirio.onibus.api.model;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Getter;
 
@@ -20,7 +21,7 @@ public class Linha
 	/**
 	 * Veículos da linha
 	 */
-	private HashMap<String, Veiculo> veiculos;
+	private List<Veiculo> veiculos;
 	
 	/**
 	 * Trajeto de ida do ônibus
@@ -43,7 +44,7 @@ public class Linha
 	public Linha(String identificador)
 	{
 		this.identificador = identificador;
-		this.veiculos = new HashMap<String, Veiculo>();
+		this.veiculos = new ArrayList<Veiculo>();
 		this.trajetoIda = new Trajetoria();
 		this.trajetoVolta = new Trajetoria();
 		this.pontosParada = new Trajetoria();
@@ -52,14 +53,14 @@ public class Linha
 	/**
 	 * Adiciona uma posição de veículo na linha
 	 */
-	public void adiciona(String numeroVeiculo, DateTime data, double latitude, double longitude, double velocidade)
+	public void adiciona(String numeroSerie, DateTime data, double latitude, double longitude, double velocidade)
 	{
-		Veiculo veiculo = veiculos.get(numeroVeiculo);
+		Veiculo veiculo = pegaVeiculoNumero(numeroSerie);
 		
 		if (veiculo == null)
 		{
-			veiculo = new Veiculo(numeroVeiculo);
-			veiculos.put(numeroVeiculo, veiculo);
+			veiculo = new Veiculo(numeroSerie);
+			veiculos.add(veiculo);
 		}
 		
 		veiculo.getTrajetoria().adiciona(data, latitude, longitude, velocidade);
@@ -70,7 +71,27 @@ public class Linha
 	 */
 	public int contaVeiculos()
 	{
-		return veiculos.keySet().size();
+		return veiculos.size();
+	}
+
+	/**
+	 * Retorna um veículo, dado seu índice
+	 */
+	public Veiculo pegaVeiculoIndice(int indice)
+	{
+		return veiculos.get(indice);
+	}
+
+	/**
+	 * Retorna um veículo, dado seu número de série
+	 */
+	public Veiculo pegaVeiculoNumero(String numeroSerie)
+	{
+		for (Veiculo veiculo : veiculos)
+			if (veiculo.getNumeroSerie().compareToIgnoreCase(numeroSerie) == 0)
+				return veiculo;
+		
+		return null;
 	}
 
 	/**
@@ -78,7 +99,7 @@ public class Linha
 	 */
 	public Iterable<Veiculo> getVeiculos()
 	{
-		return veiculos.values();
+		return veiculos;
 	}
 
 	/**
@@ -88,7 +109,7 @@ public class Linha
 	{
 		int count = 0;
 		
-		for (Veiculo veiculo : veiculos.values())
+		for (Veiculo veiculo : veiculos)
 			count += veiculo.getTrajetoria().conta();
 		
 		return count;
@@ -99,7 +120,7 @@ public class Linha
 	 */
 	public void ordenaPosicoes() 
 	{
-		for (Veiculo veiculo : veiculos.values())
+		for (Veiculo veiculo : veiculos)
 			veiculo.getTrajetoria().ordenaPosicoes();
 	}
 
