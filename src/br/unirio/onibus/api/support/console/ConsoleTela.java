@@ -1,4 +1,4 @@
-package br.unirio.onibus.api.console;
+package br.unirio.onibus.api.support.console;
 
 /**
  * Classe que representa um console para a tela

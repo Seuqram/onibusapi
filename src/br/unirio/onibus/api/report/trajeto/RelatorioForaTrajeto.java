@@ -1,9 +1,8 @@
-package br.unirio.onibus.api.report;
+package br.unirio.onibus.api.report.trajeto;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.unirio.onibus.api.calc.VerificadorPosicoesVeiculo;
 import br.unirio.onibus.api.model.Linha;
 import br.unirio.onibus.api.reader.CarregadorLinhas;
 import br.unirio.onibus.api.reader.CarregadorPosicoes;

@@ -3,7 +3,7 @@ package br.unirio.onibus.api.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.unirio.onibus.api.calc.Geodesic;
+import br.unirio.onibus.api.support.geodesic.Geodesic;
 
 /**
  * Classe que representa uma trajetória

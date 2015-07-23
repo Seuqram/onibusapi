@@ -1,4 +1,4 @@
-package br.unirio.onibus.api.console;
+package br.unirio.onibus.api.support.console;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;

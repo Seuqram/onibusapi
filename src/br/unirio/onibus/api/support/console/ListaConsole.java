@@ -1,4 +1,4 @@
-package br.unirio.onibus.api.console;
+package br.unirio.onibus.api.support.console;
 
 import java.util.ArrayList;
 import java.util.List;

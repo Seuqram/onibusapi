@@ -1,4 +1,4 @@
-package br.unirio.onibus.api.calc;
+package br.unirio.onibus.api.support.geodesic;
 
 public class Geodesic
 {

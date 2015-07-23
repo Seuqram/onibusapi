@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
-import br.unirio.onibus.api.calc.Geodesic;
+import br.unirio.onibus.api.support.geodesic.Geodesic;
 
 /**
  * Classe que representa a trajetória de um veículo

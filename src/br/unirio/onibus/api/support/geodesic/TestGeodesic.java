@@ -1,7 +1,8 @@
-package br.unirio.onibus.api.calc;
+package br.unirio.onibus.api.support.geodesic;
 
 import org.junit.Assert;
 import org.junit.Test;
+
 
 public class TestGeodesic
 {

@@ -13,7 +13,11 @@ import br.unirio.onibus.api.model.Trajetoria;
 import br.unirio.onibus.api.model.TrajetoriaVeiculo;
 import br.unirio.onibus.api.reader.CarregadorPosicoes;
 import br.unirio.onibus.api.reader.CarregadorTrajeto;
-import br.unirio.onibus.api.report.RedutorTrajetoria;
+import br.unirio.onibus.api.report.horarios.GeradorQuadroHorarios;
+import br.unirio.onibus.api.report.horarios.PublicadorQuadroHorarios;
+import br.unirio.onibus.api.report.horarios.QuadroHorarios;
+import br.unirio.onibus.api.report.redutor.RedutorTrajetoria;
+import br.unirio.onibus.api.support.console.ConsoleArquivo;
 
 @SuppressWarnings("unused")
 public class MainProgram 
@@ -31,15 +35,21 @@ public class MainProgram
 		//reduzTrajetoria(linha);
 		System.out.println("FIM");
 	}
+	
+	// TODO: fazer uma animação que mostra a posição de todos os veículos em um dia, passando por minuto
 
 	/**
 	 * Apresenta uma animação de um veículo
 	 */
-	private static void apresentaAnimacaoVeiculo(Linha linha) throws IOException 
+	private static void apresentaAnimacaoVeiculo(Linha linha) throws Exception 
 	{
 		System.out.println("Numero de posições na data: " + linha.contaPosicoes());
 		System.out.println("Numero de veículos na data: " + linha.contaVeiculos());
-		TrajetoriaVeiculo trajetoriaVeiculo = linha.pegaVeiculoIndice(1).getTrajetoria();
+		
+		List<QuadroHorarios> quadros = new GeradorQuadroHorarios().executa("/Users/Marcio/Desktop/onibus/processado", 16, 7, 2015);
+		new PublicadorQuadroHorarios().executa(new ConsoleArquivo("quadro.txt"), quadros);
+		
+		TrajetoriaVeiculo trajetoriaVeiculo = linha.pegaVeiculoIndice(34).getTrajetoria();
 		Trajetoria trajetoriaOriginal = trajetoriaVeiculo.asTrajetoria();
 
 		GeradorMapas gerador = new GeradorMapas();

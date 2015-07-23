@@ -1,4 +1,4 @@
-package br.unirio.onibus.api.calc;
+package br.unirio.onibus.api.report.trajeto;
 
 import br.unirio.onibus.api.model.Linha;
 import br.unirio.onibus.api.model.PosicaoVeiculo;
