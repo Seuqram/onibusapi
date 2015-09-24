@@ -124,4 +124,64 @@ public class TrajetoriaVeiculo
 		
 		return trajetoria;
 	}
+
+	/**
+	 * Pega a posição em que o veículo passa em um determinado ponto a partir de uma determinada hora e minuto
+	 */
+	public PosicaoVeiculo pegaPosicaoProximaPassagem(double latitude, double longitude, int hora, int minuto)
+	{
+		for (PosicaoVeiculo posicao : posicoes)
+		{
+			if (posicao.horarioIgualOuPosterior(hora, minuto))
+			{
+				double distancia = Geodesic.distance(latitude, longitude, posicao.getLatitude(), posicao.getLongitude());
+				
+				if (distancia < 0.01)
+					return posicao;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Retorna a posição de um ônibus mais próxima a um ponto considerando uma posição inicial
+	 */
+	public PosicaoVeiculo pegaPosicaoProximaPassagem(double latitude, double longitude, PosicaoVeiculo posicaoInicial)
+	{
+		int indiceInicial = posicoes.indexOf(posicaoInicial);
+		
+		if (indiceInicial == -1)
+			return null;
+
+		double ultimaDistancia = Double.MAX_VALUE;
+		PosicaoVeiculo ultimaPosicao = posicaoInicial;
+		
+		for (int i = indiceInicial+1; i < posicoes.size(); i++)
+		{
+			PosicaoVeiculo posicaoAtual = posicoes.get(i);
+			double distanciaAtual = Geodesic.distance(latitude, longitude, posicaoAtual.getLatitude(), posicaoAtual.getLongitude());
+			
+			if (distanciaAtual > ultimaDistancia && distanciaAtual < 0.1)
+				return ultimaPosicao;
+			
+			ultimaDistancia = distanciaAtual;
+			ultimaPosicao = posicaoAtual;
+		}
+
+		return null;
+	}
+	
+	/**
+	 * Pega o número de minutos para o veículo passar em um determinado ponto a partir de uma determinada hora e minuto
+	 */
+	public int pegaMinutosProximaPassagemPosicao(double latitude, double longitude, int hora, int minuto)
+	{
+		PosicaoVeiculo posicao = pegaPosicaoProximaPassagem(latitude, longitude, hora, minuto);
+		
+		if (posicao != null)
+			return (posicao.getData().getHourOfDay() - hora) * 60 + (posicao.getData().getMinuteOfHour() - minuto);
+
+		return 24 * 60;
+	}
 }

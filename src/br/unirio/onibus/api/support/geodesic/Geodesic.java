@@ -26,7 +26,7 @@ public class Geodesic
 	}
 
 	/**
-	 * Calcula a distância entre dois pontos em uma esfera usando a fórmula de Haversine, 
+	 * Calcula a distância em Km entre dois pontos em uma esfera usando a fórmula de Haversine, 
 	 * que é mais precisa para curtas distâncias
 	 * 
 	 * Ver em https://en.wikipedia.org/wiki/Great-circle_distance

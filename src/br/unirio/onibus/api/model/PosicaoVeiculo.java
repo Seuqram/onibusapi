@@ -19,4 +19,9 @@ public class PosicaoVeiculo extends PosicaoMapa
 		this.data = data;
 		this.velocidade = velocidade;
 	}
+
+	public boolean horarioIgualOuPosterior(int hora, int minuto)
+	{
+		return data.getMinuteOfDay() >= hora * 60 + minuto;
+	}
 }

@@ -147,4 +147,23 @@ public class Linha
 	{
 		pontosParada.adiciona(new PosicaoMapa(latitude, longitude));
 	}
+
+	/**
+	 * Retorna o próximo veículo a passar por um ponto em uma hora/minuto
+	 */
+	public Veiculo pegaProximoVeiculo(double latitude, double longitude, int hora, int minuto)
+	{
+		int minimoMinutos = 24 * 60;
+		Veiculo proximoVeiculo = null;
+		
+		for (Veiculo veiculo : veiculos)
+		{
+			int minutos = veiculo.getTrajetoria().pegaMinutosProximaPassagemPosicao(latitude, longitude, hora, minuto);
+			
+			if (minutos >= 0 && minutos < minimoMinutos)
+				proximoVeiculo = veiculo;
+		}
+
+		return proximoVeiculo;
+	}
 }
