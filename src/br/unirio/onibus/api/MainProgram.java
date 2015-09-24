@@ -20,9 +20,11 @@ import br.unirio.onibus.api.report.horarios.GeradorQuadroHorarios;
 import br.unirio.onibus.api.report.horarios.PublicadorQuadroHorarios;
 import br.unirio.onibus.api.report.horarios.QuadroHorarios;
 import br.unirio.onibus.api.report.redutor.RedutorTrajetoria;
+import br.unirio.onibus.api.report.tempo.CalculadorTempoPercurso;
 import br.unirio.onibus.api.support.console.ConsoleArquivo;
 import br.unirio.onibus.api.support.console.ConsoleTela;
 import br.unirio.onibus.api.support.console.IConsole;
+import br.unirio.onibus.api.support.geodesic.Geodesic;
 
 @SuppressWarnings("unused")
 public class MainProgram 
@@ -37,38 +39,15 @@ public class MainProgram
 		new CarregadorTrajeto().carregaArquivo("data/trajeto 107.csv", linha);
 	
 		IConsole console = new ConsoleTela();
-		calculaTempoPercurso(console, linha, -22.9049, -43.1917, -22.9434, -43.16, 15, 00);
+		CalculadorTempoPercurso calculador = new CalculadorTempoPercurso();
+		// TODO: gerar os resultados para diversos dias
+		
+		for (int i = 15; i <= 20; i++)
+			calculador.executa(console, linha, -22.9049, -43.1917, -22.9434, -43.16, i, 00);
 		
 		//apresentaAnimacaoVeiculo(linha); 
 		//reduzTrajetoria(linha);
 		System.out.println("FIM");
-	}
-	
-	private static void calculaTempoPercurso(IConsole console, Linha linha, double latOrigem, double lngOrigem, double latDestino, double lngDestino, int hora, int minuto)
-	{
-		// TODO: gerar os resultados para diversos dias
-		
-		Veiculo veiculo = linha.pegaProximoVeiculo(latOrigem, lngOrigem, hora, minuto);
-		
-		if (veiculo != null)
-		{
-			PosicaoVeiculo posicaoLargada = veiculo.getTrajetoria().pegaPosicaoProximaPassagem(latOrigem, lngOrigem, hora, minuto);
-			
-			if (posicaoLargada != null)
-			{
-				PosicaoVeiculo posicaoChegada = veiculo.getTrajetoria().pegaPosicaoProximaPassagem(latDestino, lngDestino, posicaoLargada);
-				
-				if (posicaoChegada != null)
-				{
-					int minutos = Minutes.minutesBetween(posicaoLargada.getData(), posicaoChegada.getData()).getMinutes();
-
-					DecimalFormat nf0 = new DecimalFormat("00");
-					// TODO: melhorar a forma de depurar este programa
-					console.println("Veiculo " + veiculo.getNumeroSerie() + " - largada as " + nf0.format(posicaoLargada.getData().getHourOfDay()) + ":" + nf0.format(posicaoLargada.getData().getMinuteOfHour() + " "));
-					System.out.println("Achou - " + minutos + " minutos!!!");
-				}
-			}
-		}
 	}
 
 	// TODO: fazer uma animação que mostra a posição de todos os veículos em um dia, passando por minuto
