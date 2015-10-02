@@ -3,8 +3,8 @@ package br.unirio.onibus.api.gmaps;
 import java.io.PrintWriter;
 import java.util.Iterator;
 
-import br.unirio.onibus.api.model.PosicaoMapa;
 import br.unirio.onibus.api.model.Trajetoria;
+import br.unirio.onibus.api.support.geodesic.PosicaoMapa;
 
 /**
  * Classe que representa um caminho que pode ser adicionado a um mapa

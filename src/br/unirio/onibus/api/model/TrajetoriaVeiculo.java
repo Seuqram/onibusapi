@@ -8,6 +8,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import br.unirio.onibus.api.support.geodesic.Geodesic;
+import br.unirio.onibus.api.support.geodesic.PosicaoMapa;
 
 /**
  * Classe que representa a trajetória de um veículo
@@ -74,6 +75,14 @@ public class TrajetoriaVeiculo
 	}
 
 	/**
+	 * Remove todas as posições do veículo
+	 */
+	public void limpa() 
+	{
+		posicoes.clear();;
+	}
+
+	/**
 	 * Calcula a distância de um ponto à trajetória
 	 */
 	public double calculaDistancia(double latitude, double longitude)
@@ -126,28 +135,9 @@ public class TrajetoriaVeiculo
 	}
 
 	/**
-	 * Pega a posição em que o veículo passa em um determinado ponto a partir de uma determinada hora e minuto
-	 */
-	public PosicaoVeiculo pegaPosicaoProximaPassagem(double latitude, double longitude, int hora, int minuto)
-	{
-		for (PosicaoVeiculo posicao : posicoes)
-		{
-			if (posicao.horarioIgualOuPosterior(hora, minuto))
-			{
-				double distancia = Geodesic.distance(latitude, longitude, posicao.getLatitude(), posicao.getLongitude());
-				
-				if (distancia < 0.01)
-					return posicao;
-			}
-		}
-
-		return null;
-	}
-
-	/**
 	 * Retorna a posição de um ônibus mais próxima a um ponto considerando uma posição inicial
 	 */
-	public PosicaoVeiculo pegaPosicaoProximaPassagem(double latitude, double longitude, PosicaoVeiculo posicaoInicial)
+	public PosicaoVeiculo pegaPosicaoProximaPassagem(PosicaoMapa destino, PosicaoVeiculo posicaoInicial, double erroAceitavel)
 	{
 		int indiceInicial = posicoes.indexOf(posicaoInicial);
 		
@@ -160,9 +150,9 @@ public class TrajetoriaVeiculo
 		for (int i = indiceInicial+1; i < posicoes.size(); i++)
 		{
 			PosicaoVeiculo posicaoAtual = posicoes.get(i);
-			double distanciaAtual = Geodesic.distance(latitude, longitude, posicaoAtual.getLatitude(), posicaoAtual.getLongitude());
+			double distanciaAtual = Geodesic.distance(destino, posicaoAtual);
 			
-			if (distanciaAtual > ultimaDistancia && distanciaAtual < 0.1)
+			if (distanciaAtual > ultimaDistancia && distanciaAtual < erroAceitavel)
 				return ultimaPosicao;
 			
 			ultimaDistancia = distanciaAtual;
@@ -171,13 +161,32 @@ public class TrajetoriaVeiculo
 
 		return null;
 	}
+
+	/**
+	 * Pega a posição em que o veículo passa em um determinado ponto a partir de uma determinada hora e minuto
+	 */
+	public PosicaoVeiculo pegaPosicaoProximaPassagem(PosicaoMapa destino, int hora, int minuto, double erroAceitavel)
+	{
+		for (PosicaoVeiculo posicao : posicoes)
+		{
+			if (posicao.horarioIgualOuPosterior(hora, minuto))
+			{
+				double distancia = Geodesic.distance(destino, posicao);
+				
+				if (distancia < erroAceitavel)
+					return posicao;
+			}
+		}
+
+		return null;
+	}
 	
 	/**
 	 * Pega o número de minutos para o veículo passar em um determinado ponto a partir de uma determinada hora e minuto
 	 */
-	public int pegaMinutosProximaPassagemPosicao(double latitude, double longitude, int hora, int minuto)
+	public int pegaMinutosProximaPassagemPosicao(PosicaoMapa destino, int hora, int minuto, double erroAceitavel)
 	{
-		PosicaoVeiculo posicao = pegaPosicaoProximaPassagem(latitude, longitude, hora, minuto);
+		PosicaoVeiculo posicao = pegaPosicaoProximaPassagem(destino, hora, minuto, erroAceitavel);
 		
 		if (posicao != null)
 			return (posicao.getData().getHourOfDay() - hora) * 60 + (posicao.getData().getMinuteOfHour() - minuto);

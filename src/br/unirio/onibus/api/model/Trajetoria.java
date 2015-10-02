@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.unirio.onibus.api.support.geodesic.Geodesic;
+import br.unirio.onibus.api.support.geodesic.PosicaoMapa;
 
 /**
  * Classe que representa uma trajetória

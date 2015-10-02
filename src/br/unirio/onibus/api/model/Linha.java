@@ -6,6 +6,8 @@ import lombok.Getter;
 
 import org.joda.time.DateTime;
 
+import br.unirio.onibus.api.support.geodesic.PosicaoMapa;
+
 /**
  * Classe que representa uma linha de ônibus, com seus veículos e posições
  * 
@@ -103,6 +105,14 @@ public class Linha
 	}
 
 	/**
+	 * Remove todas as posições dos ônibus
+	 */
+	public void limpaVeiculos() 
+	{
+		veiculos.clear();
+	}
+	
+	/**
 	 * Conta o número de posições registradas na linha
 	 */
 	public int contaPosicoes()
@@ -151,14 +161,14 @@ public class Linha
 	/**
 	 * Retorna o próximo veículo a passar por um ponto em uma hora/minuto
 	 */
-	public Veiculo pegaProximoVeiculo(double latitude, double longitude, int hora, int minuto)
+	public Veiculo pegaProximoVeiculo(PosicaoMapa destino, int hora, int minuto, double erroAceitavel)
 	{
 		int minimoMinutos = 24 * 60;
 		Veiculo proximoVeiculo = null;
 		
 		for (Veiculo veiculo : veiculos)
 		{
-			int minutos = veiculo.getTrajetoria().pegaMinutosProximaPassagemPosicao(latitude, longitude, hora, minuto);
+			int minutos = veiculo.getTrajetoria().pegaMinutosProximaPassagemPosicao(destino, hora, minuto, erroAceitavel);
 			
 			if (minutos >= 0 && minutos < minimoMinutos)
 				proximoVeiculo = veiculo;

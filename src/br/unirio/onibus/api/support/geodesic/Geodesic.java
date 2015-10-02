@@ -1,5 +1,6 @@
 package br.unirio.onibus.api.support.geodesic;
 
+
 public class Geodesic
 {
 	private static final double EARTH_RADIUS = 6371.0; // em Km
@@ -10,6 +11,14 @@ public class Geodesic
 	public static double distance(double lat1, double lon1, double lat2, double lon2)
 	{
 		 return distanceHaversine(lat1, lon1, lat2, lon2);
+	}
+
+	/**
+	 * Método usado para calcular a distância entre dois pontos em coordenadas geográficas
+	 */
+	public static double distance(PosicaoMapa origem, PosicaoMapa destino)
+	{
+		 return distanceHaversine(origem.getLatitude(), origem.getLongitude(), destino.getLatitude(), destino.getLongitude());
 	}
 
 	/**

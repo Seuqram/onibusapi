@@ -1,4 +1,4 @@
-package br.unirio.onibus.api.model;
+package br.unirio.onibus.api.support.geodesic;
 import lombok.Getter;
 
 /**

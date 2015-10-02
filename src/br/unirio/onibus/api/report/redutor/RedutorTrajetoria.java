@@ -5,9 +5,9 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
-import br.unirio.onibus.api.model.PosicaoMapa;
 import br.unirio.onibus.api.model.Trajetoria;
 import br.unirio.onibus.api.support.geodesic.Geodesic;
+import br.unirio.onibus.api.support.geodesic.PosicaoMapa;
 
 /**
  * Classe que reduz o tamanho de uma sequência de posições no mapa

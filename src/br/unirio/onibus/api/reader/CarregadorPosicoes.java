@@ -1,11 +1,13 @@
 package br.unirio.onibus.api.reader;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -37,25 +39,37 @@ public class CarregadorPosicoes
 	/**
 	 * Carrega um arquivo de uma linha de ônibus em uma data
 	 */
-	public void executa(String nomeArquivo, Linha linha) throws Exception
-	{
-	    ZipFile zipFile = new ZipFile(nomeArquivo);
-		Enumeration<? extends ZipEntry> zipEntries = zipFile.entries();
-
-		while (zipEntries.hasMoreElements())
+	public boolean executa(String nomeArquivo, Linha linha)
+	{		
+		try
 		{
-			ZipEntry zipEntry = zipEntries.nextElement();
-			processaArquivoLinha(linha, zipEntry, zipFile);
+		    ZipFile zipFile = new ZipFile(nomeArquivo);
+			Enumeration<? extends ZipEntry> zipEntries = zipFile.entries();
+	
+			while (zipEntries.hasMoreElements())
+			{
+				ZipEntry zipEntry = zipEntries.nextElement();
+				processaArquivoLinha(linha, zipEntry, zipFile);
+			}
+	
+		    zipFile.close();
+		    linha.ordenaPosicoes();
+		    return true;
 		}
-
-	    zipFile.close();
-	    linha.ordenaPosicoes();
+		catch(IOException ioe)
+		{
+		    return false;
+		}
+		catch(ParseException pe)
+		{
+			return false;
+		}
 	}
 
 	/**
-	 * Processa o conteúdo de uma entrada do arquivo ZIP
+	 * Processa o conteúdo de uma entrada do arquivo ZIP 
 	 */
-	private void processaArquivoLinha(Linha linha, ZipEntry zipEntry, ZipFile zipFile) throws Exception 
+	private void processaArquivoLinha(Linha linha, ZipEntry zipEntry, ZipFile zipFile) throws IOException, ParseException 
 	{
 		DecimalFormatSymbols canonicalSymbols = new DecimalFormatSymbols();
 		canonicalSymbols.setDecimalSeparator('.');

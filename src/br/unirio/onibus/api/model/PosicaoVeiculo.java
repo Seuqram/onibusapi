@@ -3,6 +3,8 @@ import lombok.Getter;
 
 import org.joda.time.DateTime;
 
+import br.unirio.onibus.api.support.geodesic.PosicaoMapa;
+
 /**
  * Classe que representa a posição de um veículo em um instante de tempo 
  * 

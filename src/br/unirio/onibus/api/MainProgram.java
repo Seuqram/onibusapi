@@ -1,20 +1,17 @@
 package br.unirio.onibus.api;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.List;
 
-import org.joda.time.Minutes;
+import org.joda.time.DateTime;
 
 import br.unirio.onibus.api.gmaps.DecoradorCaminho;
 import br.unirio.onibus.api.gmaps.DecoradorCaminhoAnimadoLinha;
 import br.unirio.onibus.api.gmaps.GeradorMapas;
 import br.unirio.onibus.api.model.Linha;
-import br.unirio.onibus.api.model.PosicaoVeiculo;
+import br.unirio.onibus.api.model.Repositorio;
 import br.unirio.onibus.api.model.Trajetoria;
 import br.unirio.onibus.api.model.TrajetoriaVeiculo;
-import br.unirio.onibus.api.model.Veiculo;
-import br.unirio.onibus.api.reader.CarregadorPosicoes;
 import br.unirio.onibus.api.reader.CarregadorTrajeto;
 import br.unirio.onibus.api.report.horarios.GeradorQuadroHorarios;
 import br.unirio.onibus.api.report.horarios.PublicadorQuadroHorarios;
@@ -24,46 +21,62 @@ import br.unirio.onibus.api.report.tempo.CalculadorTempoPercurso;
 import br.unirio.onibus.api.support.console.ConsoleArquivo;
 import br.unirio.onibus.api.support.console.ConsoleTela;
 import br.unirio.onibus.api.support.console.IConsole;
-import br.unirio.onibus.api.support.geodesic.Geodesic;
 
 @SuppressWarnings("unused")
 public class MainProgram 
 {
+	private static String DIRETORIO_PROCESSADOS = "d:\\projetos\\onibus\\processados";
+	
 	/**
 	 * Programa principal
 	 */
 	public static final void main(String[] args) throws Exception
 	{
-		Linha linha = new Linha("107");
-		new CarregadorPosicoes().executa("data/2014-12-03.zip", linha);
-		new CarregadorTrajeto().carregaArquivo("data/trajeto 107.csv", linha);
-	
-		IConsole console = new ConsoleTela();
-		CalculadorTempoPercurso calculador = new CalculadorTempoPercurso();
-		// TODO: gerar os resultados para diversos dias
-		
-		for (int i = 15; i <= 20; i++)
-			calculador.executa(console, linha, -22.9049, -43.1917, -22.9434, -43.16, i, 00);
-		
-		//apresentaAnimacaoVeiculo(linha); 
-		//reduzTrajetoria(linha);
+		apresentaTemposLinhasCortadas();		
+//		apresentaAnimacaoVeiculo(); 
+		//reduzTrajetoria();
+		// TODO: fazer uma animação que mostra a posição de todos os veículos em um dia, passando por minuto
 		System.out.println("FIM");
 	}
+	
+	/**
+	 * Apresenta o tempo de percurso de um conjunto de veiculos
+	 */
+	private static void apresentaTemposLinhasCortadas()
+	{
+		//String[] numerosLinhas = {"120", "121", "125", "129", "305", "314", "318", "332", "360", "405", "458", "481", "501", "502", "504", "505"};
+		String[] numerosLinhas = {"107"};
 
-	// TODO: fazer uma animação que mostra a posição de todos os veículos em um dia, passando por minuto
+		IConsole console = new ConsoleTela();
+		Repositorio repositorio = new Repositorio(DIRETORIO_PROCESSADOS);
+
+		CalculadorTempoPercurso calculador = new CalculadorTempoPercurso(repositorio, console, true);
+//		DateTime dataInicio = new DateTime(2015, 1, 1, 0, 0, 0);
+//		DateTime dataTermino = new DateTime(2015, 9, 30, 0, 0, 0);
+		DateTime dataInicio = new DateTime(2015, 7, 9, 0, 0, 0);
+		DateTime dataTermino = new DateTime(2015, 7, 9, 0, 0, 0);
+
+		for (String numeroLinha : numerosLinhas)
+		{
+			Linha linha = new Linha(numeroLinha);
+			calculador.mudaTrajetoIda(linha).executaPeriodo(linha, dataInicio, dataTermino);
+		}
+	}
 
 	/**
 	 * Apresenta uma animação de um veículo
 	 */
-	private static void apresentaAnimacaoVeiculo(Linha linha) throws Exception 
+	private static void apresentaAnimacaoVeiculo() throws Exception 
 	{
-		System.out.println("Numero de posições na data: " + linha.contaPosicoes());
-		System.out.println("Numero de veículos na data: " + linha.contaVeiculos());
+		DateTime data = new DateTime(2015, 7, 16, 0, 0, 0);
 		
-		List<QuadroHorarios> quadros = new GeradorQuadroHorarios().executa("/Users/Marcio/Desktop/onibus/processado", 16, 7, 2015);
+		Repositorio repositorio = new Repositorio(DIRETORIO_PROCESSADOS);
+		List<QuadroHorarios> quadros = new GeradorQuadroHorarios().executa(repositorio, data);
 		new PublicadorQuadroHorarios().executa(new ConsoleArquivo("quadro.txt"), quadros);
 		
-		TrajetoriaVeiculo trajetoriaVeiculo = linha.pegaVeiculoIndice(34).getTrajetoria();
+		Linha linha = new Linha("120");
+		repositorio.carregaPosicoes(linha, data);
+		TrajetoriaVeiculo trajetoriaVeiculo = linha.pegaVeiculoIndice(0).getTrajetoria();
 		Trajetoria trajetoriaOriginal = trajetoriaVeiculo.asTrajetoria();
 
 		GeradorMapas gerador = new GeradorMapas();
@@ -76,8 +89,14 @@ public class MainProgram
 	/**
 	 * Reduz a trajetória de ida e volta de uma linha de ônibus
 	 */
-	private static void reduzTrajetoria(Linha linha) throws IOException 
+	private static void reduzTrajetoria() throws IOException 
 	{
+		Linha linha = new Linha("120");
+		DateTime data = new DateTime(2015, 7, 16, 0, 0, 0);
+
+		Repositorio repositorio = new Repositorio(DIRETORIO_PROCESSADOS);
+		repositorio.carregaPosicoes(linha, data);
+
 		RedutorTrajetoria redutorIda = new RedutorTrajetoria(linha.getTrajetoIda());
 		redutorIda.reduzMaximaDistancia(0.001);
 		Trajetoria trajetoriaIdaReduzida = redutorIda.pegaTrajetoria();
