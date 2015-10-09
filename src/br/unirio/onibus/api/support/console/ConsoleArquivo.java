@@ -21,17 +21,20 @@ public class ConsoleArquivo implements IConsole
 	public void print(String s) 
 	{
 		out.print(s);
+		out.flush();
 	}
 
 	@Override
 	public void println(String s) 
 	{
 		out.println(s);
+		out.flush();
 	}
 
 	@Override
 	public void println() 
 	{
 		out.println();
+		out.flush();
 	}
 }

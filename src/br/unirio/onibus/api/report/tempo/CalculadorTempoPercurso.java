@@ -130,17 +130,17 @@ public class CalculadorTempoPercurso
 	 */
 	private void executaDataHora(Linha linha, DateTime data, int hora)
 	{
-		Veiculo veiculo = linha.pegaProximoVeiculo(origem, hora, 0, ERRO_ACEITAVEL);
+		Veiculo veiculo = linha.pegaProximoVeiculo(origem, hora, 0, ERRO_ACEITAVEL * 100);
 		
 		if (veiculo != null)
 		{
-			PosicaoVeiculo posicaoLargada = veiculo.getTrajetoria().pegaPosicaoProximaPassagem(origem, hora, 0, ERRO_ACEITAVEL);
+			PosicaoVeiculo posicaoLargada = veiculo.getTrajetoria().pegaPosicaoProximaPassagem(origem, hora, 0, ERRO_ACEITAVEL * 100);
 			
 			if (posicaoLargada != null && posicaoLargada.getData().getHourOfDay() == hora)
 			{
-				PosicaoVeiculo posicaoChegada = veiculo.getTrajetoria().pegaPosicaoProximaPassagem(destino, posicaoLargada, ERRO_ACEITAVEL * 20);
+				PosicaoVeiculo posicaoChegada = veiculo.getTrajetoria().pegaPosicaoProximaPassagem(destino, posicaoLargada, ERRO_ACEITAVEL * 100);
 				
-				if (posicaoChegada != null)
+				if (posicaoChegada != null && veiculo.calculaMaximoIntervaloTempo(posicaoLargada, posicaoChegada) < 5 * 60)
 				{
 					if (verbose)
 						publicaResultadoCompleto(linha, data, hora, veiculo, posicaoLargada, posicaoChegada);
@@ -183,6 +183,15 @@ public class CalculadorTempoPercurso
 		sb.append("chegada as " + nf0.format(posicaoChegada.getData().getHourOfDay()) + ":" + nf0.format(posicaoChegada.getData().getMinuteOfHour()) + " " + nf3.format(distanciaChegada) + " Km - ");
 		sb.append(minutos + " minutos");
 		console.println(sb.toString());
+		
+		int indiceLargada = veiculo.getTrajetoria().pegaIndicePosicao(posicaoLargada);
+		int indiceChegada = veiculo.getTrajetoria().pegaIndicePosicao(posicaoChegada);
+		
+		for (int i = indiceLargada; i <= indiceChegada; i++)
+		{
+			PosicaoVeiculo posicao = veiculo.getTrajetoria().pegaPosicaoIndice(i);
+			console.println("\t" + i + " " + posicao.getData().getHourOfDay() + ":" + posicao.getData().getMinuteOfHour() + " " + Geodesic.distance(posicao, destino));
+		}
 	}
 
 }

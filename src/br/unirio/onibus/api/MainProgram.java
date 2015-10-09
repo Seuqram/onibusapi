@@ -1,5 +1,6 @@
 package br.unirio.onibus.api;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import br.unirio.onibus.api.report.tempo.CalculadorTempoPercurso;
 import br.unirio.onibus.api.support.console.ConsoleArquivo;
 import br.unirio.onibus.api.support.console.ConsoleTela;
 import br.unirio.onibus.api.support.console.IConsole;
+import br.unirio.onibus.api.support.console.ListaConsole;
 
 @SuppressWarnings("unused")
 public class MainProgram 
@@ -42,19 +44,21 @@ public class MainProgram
 	/**
 	 * Apresenta o tempo de percurso de um conjunto de veiculos
 	 */
-	private static void apresentaTemposLinhasCortadas()
+	private static void apresentaTemposLinhasCortadas() throws FileNotFoundException
 	{
-		//String[] numerosLinhas = {"120", "121", "125", "129", "305", "314", "318", "332", "360", "405", "458", "481", "501", "502", "504", "505"};
-		String[] numerosLinhas = {"107"};
+//		String[] numerosLinhas = {"120", "121", "125", "129", "305", "314", "318", "332", "360", "405", "458", "481", "501", "502", "504", "505"};
+		String[] numerosLinhas = {"504"};
 
-		IConsole console = new ConsoleTela();
+		ListaConsole console = new ListaConsole();
+		console.add(new ConsoleTela());
+		console.add(new ConsoleArquivo("/Users/marcio.barros/Desktop/tempos.data"));
 		Repositorio repositorio = new Repositorio(DIRETORIO_PROCESSADOS);
 
-		CalculadorTempoPercurso calculador = new CalculadorTempoPercurso(repositorio, console, true);
+		CalculadorTempoPercurso calculador = new CalculadorTempoPercurso(repositorio, console, false);
 //		DateTime dataInicio = new DateTime(2015, 1, 1, 0, 0, 0);
 //		DateTime dataTermino = new DateTime(2015, 9, 30, 0, 0, 0);
-		DateTime dataInicio = new DateTime(2015, 7, 9, 0, 0, 0);
-		DateTime dataTermino = new DateTime(2015, 7, 9, 0, 0, 0);
+		DateTime dataInicio = new DateTime(2015, 1, 6, 0, 0, 0);
+		DateTime dataTermino = new DateTime(2015, 1, 6, 0, 0, 0);
 
 		for (String numeroLinha : numerosLinhas)
 		{

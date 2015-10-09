@@ -65,6 +65,14 @@ public class TrajetoriaVeiculo
 		
 		posicoes.add(new PosicaoVeiculo(data, latitude, longitude, velocidade));
 	}
+
+	/**
+	 * Retorna o índice de uma determinada posição do veículo
+	 */
+	public int pegaIndicePosicao(PosicaoVeiculo posicao) 
+	{
+		return posicoes.indexOf(posicao);
+	}
 	
 	/**
 	 * Retorna as posições da trajetória
@@ -79,7 +87,7 @@ public class TrajetoriaVeiculo
 	 */
 	public void limpa() 
 	{
-		posicoes.clear();;
+		posicoes.clear();
 	}
 
 	/**
