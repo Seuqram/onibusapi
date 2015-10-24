@@ -31,7 +31,7 @@ public class VerificadorPosicoesVeiculo
 	{
 		int contador = 0;
 		
-		for (PosicaoVeiculo posicao : veiculo.getTrajetoria().pegaPosicoes())
+		for (PosicaoVeiculo posicao : veiculo.getTrajetoria().getPosicoes())
 			if (verificaPosicaoLongeTrajetos(linha, veiculo, posicao))
 				contador++;
 		

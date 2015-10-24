@@ -105,6 +105,23 @@ public class Linha
 	}
 
 	/**
+	 * Remove um veículo da linha
+	 */
+	public void removeVeiculo(int indice) 
+	{
+		veiculos.remove(indice);
+	}
+
+	/**
+	 * Remove um conjunto de veículos da linha
+	 */
+	public void removeVeiculos(int minIndice, int maxIndice) 
+	{
+		for (int i = maxIndice; i >= minIndice; i--)
+			veiculos.remove(i);
+	}
+
+	/**
 	 * Remove todas as posições dos ônibus
 	 */
 	public void limpaVeiculos() 
@@ -132,6 +149,24 @@ public class Linha
 	{
 		for (Veiculo veiculo : veiculos)
 			veiculo.getTrajetoria().ordenaPosicoes();
+	}
+
+	/**
+	 * Remove todas as posições dos veículos depois de um horário
+	 */
+	public void removePosicoesDepoisHorario(int hora, int minuto) 
+	{
+		for (Veiculo veiculo : veiculos)
+			veiculo.removePosicoesDepoisHorario(hora, minuto);
+	}
+
+	/**
+	 * Remove todas as posições dos veículos antes de um horário
+	 */
+	public void removePosicoesAntesHorario(int hora, int minuto) 
+	{
+		for (Veiculo veiculo : veiculos)
+			veiculo.removePosicoesAntesHorario(hora, minuto);
 	}
 
 	/**

@@ -41,6 +41,14 @@ public class Trajetoria
 	{
 		return posicoes.get(indice);
 	}
+
+	/**
+	 * Retorna o índice de uma posição da trajetória
+	 */
+	public int pegaIndicePosicao(PosicaoMapa posicao) 
+	{
+		return posicoes.indexOf(posicao);
+	}
 	
 	/**
 	 * Adiciona uma posição na trajetória
@@ -90,12 +98,26 @@ public class Trajetoria
 		
 		return menorDistancia;
 	}
-//
-//	/**
-//	 * Ordena as posições do veículo
-//	 */
-//	public void ordenaPosicoes(Comparator<PosicaoMapa> comparador) 
-//	{
-//		Collections.sort(posicoes, comparador);
-//	}
+
+	/**
+	 * Retorna o ponto de inflexão mais próximo de uma posição
+	 */
+	public PosicaoMapa pegaPontoInflexaoMaisProximo(double latitude, double longitude) 
+	{
+		PosicaoMapa posicaoMaisProxima = null;
+		double menorDistancia = Double.MAX_VALUE;
+		
+		for (PosicaoMapa posicao : posicoes)
+		{
+			double distancia = Geodesic.distance(latitude, longitude, posicao.getLatitude(), posicao.getLongitude());
+			
+			if (distancia < menorDistancia)
+			{
+				menorDistancia = distancia;
+				posicaoMaisProxima = posicao;
+			}
+		}
+		
+		return posicaoMaisProxima;
+	}
 }

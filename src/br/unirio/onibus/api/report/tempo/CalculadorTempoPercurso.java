@@ -120,7 +120,9 @@ public class CalculadorTempoPercurso
 
 		if (!repositorio.carregaPosicoes(linha, data))
 			return;
-
+		
+		linha.removeVeiculos(1, linha.contaVeiculos()-1);
+		
 		for (int hora = 8; hora <= 20; hora++)
 			executaDataHora(linha, data, hora);
 	}

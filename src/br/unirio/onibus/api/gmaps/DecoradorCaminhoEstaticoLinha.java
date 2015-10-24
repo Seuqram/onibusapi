@@ -11,7 +11,7 @@ import br.unirio.onibus.api.support.geodesic.PosicaoMapa;
  * 
  * @author Marcio
  */
-public class DecoradorCaminho implements IDecoradorMapas 
+public class DecoradorCaminhoEstaticoLinha implements IDecoradorMapas 
 {
 	public String nome = "path";
 	public String cor = "#FF0000";
@@ -22,7 +22,7 @@ public class DecoradorCaminho implements IDecoradorMapas
 	/**
 	 * Inicializa o decorador
 	 */
-	public DecoradorCaminho(Trajetoria trajetoria) 
+	public DecoradorCaminhoEstaticoLinha(Trajetoria trajetoria) 
 	{
 		this.trajetoria = trajetoria;
 	}
@@ -31,7 +31,7 @@ public class DecoradorCaminho implements IDecoradorMapas
 	/**
 	 * Indica o nome do caminho
 	 */
-	public DecoradorCaminho setNome(String nome)
+	public DecoradorCaminhoEstaticoLinha setNome(String nome)
 	{
 		this.nome = nome;
 		return this;
@@ -40,7 +40,7 @@ public class DecoradorCaminho implements IDecoradorMapas
 	/**
 	 * Indica a cor com que o caminho será desenhado
 	 */
-	public DecoradorCaminho setCor(String cor)
+	public DecoradorCaminhoEstaticoLinha setCor(String cor)
 	{
 		this.cor = cor;
 		return this;
@@ -49,7 +49,7 @@ public class DecoradorCaminho implements IDecoradorMapas
 	/**
 	 * Indica a opacidade do desenho do caminho
 	 */
-	public DecoradorCaminho setOpacidade(double opacidade)
+	public DecoradorCaminhoEstaticoLinha setOpacidade(double opacidade)
 	{
 		this.opacidade = opacidade;
 		return this;
@@ -58,7 +58,7 @@ public class DecoradorCaminho implements IDecoradorMapas
 	/**
 	 * Indica a largura do desenho do caminho
 	 */
-	public DecoradorCaminho setLargura(int largura)
+	public DecoradorCaminhoEstaticoLinha setLargura(int largura)
 	{
 		this.largura = largura;
 		return this;

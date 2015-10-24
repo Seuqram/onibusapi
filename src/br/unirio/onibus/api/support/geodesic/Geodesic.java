@@ -79,31 +79,59 @@ public class Geodesic
 		double y = Math.sin(rTheta) * Math.cos(rLat2);
 		double x = Math.cos(rLat1) * Math.sin(rLat2) - Math.sin(rLat1) * Math.cos(rLat2) * Math.cos(rTheta);
 		double theta = Math.atan2(y, x);
-		return (Math.toDegrees(theta) + 360) % 360;
+		double initialBearing = (Math.toDegrees(theta) + 360) % 360;
+		//double initialBearing = Math.toDegrees(theta);
+		return initialBearing;
 	}
 
 	/**
 	 * Calcula a menor distância entre um ponto e uma trilha definida por dois pontos - método mais preciso
+	 * 
+	 * Ver em http://www.movable-type.co.uk/scripts/latlong.html, seção "Cross-track distance"
 	 */
-	public static double trackDistance(double lat, double lon, double latTrack1, double lonTrack1, double latTrack2, double lonTrack2)
+	public static double trackDistance(double latTarget, double lonTarget, double latStart, double lonStart, double latFinish, double lonFinish)
 	{
-		double distance13 = distance(latTrack1, lonTrack1, lat, lon);
-		double bearing13 = bearing(latTrack1, lonTrack1, lat, lon);
-		double bearing12 = bearing(latTrack1, lonTrack1, latTrack2, lonTrack2);
-		return Math.abs(Math.asin(Math.sin(distance13 / EARTH_RADIUS) * Math.sin(Math.toRadians(bearing13 - bearing12))) * EARTH_RADIUS);
+		// Calcula a distância do ponto de interesse para o ponto de início do segmento
+		double distanceStartTarget = distanceHaversine(latStart, lonStart, latTarget, lonTarget);
+
+		// Calcula a distância do ponto de interesse para o arco definido pelo segmento		
+		double bearing13 = bearing(latStart, lonStart, latTarget, lonTarget);
+		double bearing12 = bearing(latStart, lonStart, latFinish, lonFinish);
+		double distance = Math.abs(Math.asin(Math.sin(distanceStartTarget / EARTH_RADIUS) * Math.sin(Math.toRadians(bearing13 - bearing12))) * EARTH_RADIUS);
+		
+		// Calcula o ponto de corte no arco
+	    double sigma = distance / EARTH_RADIUS;
+	    double theta = Math.toRadians(bearing12);
+
+	    double phi1 = Math.toRadians(latTarget);
+	    double phi2 = Math.asin(Math.sin(phi1) * Math.cos(sigma) + Math.cos(phi1) * Math.sin(sigma) * Math.cos(theta));
+
+	    double lambda1 = Math.toRadians(lonTarget);
+	    double lambda2 = lambda1 + Math.atan2(Math.sin(theta) * Math.sin(sigma) * Math.cos(phi1), Math.cos(sigma) - Math.sin(phi1) * Math.sin(phi2));
+	    double lambda3 = (lambda2 + 3*Math.PI) % (2 * Math.PI) - Math.PI;
+
+	    double latArcCross = Math.toDegrees(phi2);
+	    double lonArcCross = Math.toDegrees(lambda3);
+	    
+	    // Se o ponto de corte estiver dentro do segmento de arco, retorna a distância calculada
+		if (withinArcSegment(latArcCross, lonArcCross, latStart, lonStart, latFinish, lonFinish))
+			return distance;
+			
+		// Senão, calcula a distância do ponto de interesse para o ponto de término do segmento
+		double distanceEndTarget = distanceHaversine(latFinish, lonFinish, latTarget, lonTarget);
+
+		// Retorna a menor distância entre o ponto de início e término do arco
+		return Math.min(distanceStartTarget, distanceEndTarget);
 	}
 	
 	/**
-	 * Calcula a menor distância entre um ponto e uma trilha definida por dois pontos - aproximação linear
+	 * Verifica se um ponto está dentro de um segmento de arco
 	 */
-	public static double linearTrackDistance(double lat, double lon, double latTrack1, double lonTrack1, double latTrack2, double lonTrack2) 
+	private static boolean withinArcSegment(double latTarget, double lonTarget, double latStart, double lonStart, double latFinish, double lonFinish)
 	{
-		double a = (lonTrack2 - lonTrack1) / (latTrack2 - latTrack1);
-		double b = lonTrack1 - a * latTrack1;
-		
-		double ilat = (lon + a * lat - b) / (2 * a);
-		double ilong = a * ilat + b;
-		
-		return Geodesic.distance(lat, lon, ilat, ilong);
+		double arcSegmentSize = distanceHaversine(latStart, lonStart, latFinish, lonFinish);
+		double distanceCrossStart = distanceHaversine(latStart, lonStart, latTarget, lonTarget);
+		double distanceCrossFinish = distanceHaversine(latFinish, lonFinish, latTarget, lonTarget);		
+		return (distanceCrossStart <= arcSegmentSize && distanceCrossFinish <= arcSegmentSize);
 	}
 }

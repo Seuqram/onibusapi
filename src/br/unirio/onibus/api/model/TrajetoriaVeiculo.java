@@ -77,7 +77,7 @@ public class TrajetoriaVeiculo
 	/**
 	 * Retorna as posições da trajetória
 	 */
-	public Iterable<PosicaoVeiculo> pegaPosicoes()
+	public Iterable<PosicaoVeiculo> getPosicoes()
 	{
 		return posicoes;
 	}
@@ -127,6 +127,65 @@ public class TrajetoriaVeiculo
 				return p0.getData().compareTo(p1.getData());
 			}
 		});
+	}
+	
+	/**
+	 * Retorna o índice da primeira posição após um determinado horário - poderia ser uma busca binária
+	 */
+	private int pegaIndicePosicaoHorario(int hora, int minuto)
+	{
+		for (int i = 0; i < posicoes.size(); i++)
+		{
+			PosicaoVeiculo posicao = posicoes.get(i);
+			
+			if (posicao.getData().getHourOfDay() >= hora && posicao.getData().getMinuteOfHour() >= minuto)
+				return i;
+		}
+		
+		return -1;
+	}
+
+	/**
+	 * Remove uma posição do veículo, dado seu índice
+	 */
+	public void removePosicao(int indice) 
+	{
+		posicoes.remove(indice);
+	}
+
+	/**
+	 * Remove uma posição do veículo, dado seu índice
+	 */
+	public void removePosicoesErro() 
+	{
+		for (int i = posicoes.size()-1; i >= 0; i--)
+			if (posicoes.get(i).getTipo() == TipoPosicaoVeiculo.Erro)
+				posicoes.remove(i);
+	}
+
+	/**
+	 * Remove todas as posições dos veículos depois de um horário
+	 */
+	public void removePosicoesDepoisHorario(int hora, int minuto) 
+	{
+		int indice = pegaIndicePosicaoHorario(hora, minuto);
+		
+		if (indice != -1)
+		{
+			while (posicoes.size() > indice)
+				posicoes.remove(indice);
+		}
+	}
+
+	/**
+	 * Remove todas as posições dos veículos antes de um horário
+	 */
+	public void removePosicoesAntesHorario(int hora, int minuto) 
+	{
+		int indice = pegaIndicePosicaoHorario(hora, minuto);
+		
+		for (int i = 0; i < indice; i++)
+			posicoes.remove(0);
 	}
 
 	/**

@@ -31,6 +31,22 @@ public class Veiculo
 	}
 
 	/**
+	 * Remove todas as posições do veículo depois de um horário
+	 */
+	public void removePosicoesDepoisHorario(int hora, int minuto) 
+	{
+		trajetoria.removePosicoesDepoisHorario(hora, minuto);
+	}
+
+	/**
+	 * Remove todas as posições do veículo antes de um horário
+	 */
+	public void removePosicoesAntesHorario(int hora, int minuto) 
+	{
+		trajetoria.removePosicoesAntesHorario(hora, minuto);
+	}
+
+	/**
 	 * Calcula o máximo intervalo de tempo em uma sequência de posições do ônibus, em segundos
 	 */
 	public int calculaMaximoIntervaloTempo(PosicaoVeiculo posicaoInicio, PosicaoVeiculo posicaoTermino) 

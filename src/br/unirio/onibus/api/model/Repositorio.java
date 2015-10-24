@@ -43,7 +43,10 @@ public class Repositorio
 	 */
 	public boolean carregaTrajeto(Linha linha)
 	{
-		return new CarregadorTrajeto().carregaArquivoCompactado(diretorioBase + "\\trajetos\\trajetos.zip", linha);
+		if (linha.getTrajetoIda().conta() == 0 || linha.getTrajetoVolta().conta() == 0)
+			return new CarregadorTrajeto().carregaArquivoCompactado(diretorioBase + "\\trajetos\\trajetos.zip", linha);
+		
+		return true;
 	}
 	
 	/**

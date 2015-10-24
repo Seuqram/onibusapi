@@ -56,7 +56,7 @@ public class GeradorQuadroHorarios
 		{
 			int ultimaHora = -1;
 			
-			for (PosicaoVeiculo posicao : veiculo.getTrajetoria().pegaPosicoes())
+			for (PosicaoVeiculo posicao : veiculo.getTrajetoria().getPosicoes())
 			{
 				int hora = posicao.getData().getHourOfDay();
 				
