@@ -76,19 +76,13 @@ public class MainProgram
 		ClassificadorPosicaoVeiculo classificador = new ClassificadorPosicaoVeiculo(repositorio);
 		classificador.executa(linha, data);
 
-		// TODO: eliminar trilhas com poucos pontos (menos de 50 posições)
-		
-		// TODO: o próximo problema é corrigir os pontos de ida e volta que se alternam em uma sequência
-		
-		TrajetoriaVeiculo trajetoriaVeiculo = linha.pegaVeiculoIndice(2).getTrajetoria();
+		TrajetoriaVeiculo trajetoriaVeiculo = linha.pegaVeiculoIndice(0).getTrajetoria();
 		Trajetoria trajetoriaOriginal = trajetoriaVeiculo.asTrajetoria();
 
 		GeradorMapas gerador = new GeradorMapas();
 		gerador.adiciona(new DecoradorCaminhoEstaticoLinha(linha.getTrajetoIda()).setCor("#0000FF"));
 		gerador.adiciona(new DecoradorCaminhoEstaticoLinha(linha.getTrajetoVolta()).setCor("#00FF00"));
-		//gerador.adiciona(new DecoradorCaminhoEstaticoMarcadores(trajetoriaVeiculo));
 		gerador.adiciona(new DecoradorCaminhoAnimadoMarcadores(trajetoriaVeiculo).setEspera(500));
-		//gerador.adiciona(new DecoradorCaminhoAnimadoLinha(trajetoriaOriginal).setNome("original").setLargura(3).setEspera(500));
 		gerador.publica("saida.html");
 
 		java.awt.Desktop.getDesktop().browse(java.net.URI.create("saida.html"));

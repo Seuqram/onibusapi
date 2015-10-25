@@ -15,7 +15,7 @@ public class PosicaoVeiculo extends PosicaoMapa
 	private @Getter DateTime data;
 	private @Getter double velocidade;
 	private @Getter TipoPosicaoVeiculo tipo;
-	private @Getter int indicePosicaoVeiculo; 
+	private @Getter int indiceTrajeto; 
 	
 	/**
 	 * Inicializa a posição do veículo
@@ -26,7 +26,7 @@ public class PosicaoVeiculo extends PosicaoMapa
 		this.data = data;
 		this.velocidade = velocidade;
 		this.tipo = TipoPosicaoVeiculo.Desconhecido;
-		this.indicePosicaoVeiculo = -1;
+		this.indiceTrajeto = -1;
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class PosicaoVeiculo extends PosicaoMapa
 	public void setPosicaoErro()
 	{
 		this.tipo = TipoPosicaoVeiculo.Erro;
-		this.indicePosicaoVeiculo = -1; 
+		this.indiceTrajeto = -1; 
 	}
 	
 	/**
@@ -52,7 +52,7 @@ public class PosicaoVeiculo extends PosicaoMapa
 	public void setPosicaoTrajetoIda(int indicePosicao)
 	{
 		this.tipo = TipoPosicaoVeiculo.Ida;
-		this.indicePosicaoVeiculo = indicePosicao; 
+		this.indiceTrajeto = indicePosicao; 
 	}
 	
 	/**
@@ -61,6 +61,6 @@ public class PosicaoVeiculo extends PosicaoMapa
 	public void setPosicaoTrajetoVolta(int indicePosicao)
 	{
 		this.tipo = TipoPosicaoVeiculo.Volta;
-		this.indicePosicaoVeiculo = indicePosicao; 
+		this.indiceTrajeto = indicePosicao; 
 	}
 }

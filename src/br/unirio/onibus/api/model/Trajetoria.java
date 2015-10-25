@@ -100,15 +100,27 @@ public class Trajetoria
 	}
 
 	/**
-	 * Retorna o ponto de inflexão mais próximo de uma posição
+	 * Retorna o ponto mais próximo de uma posição
 	 */
-	public PosicaoMapa pegaPontoInflexaoMaisProximo(double latitude, double longitude) 
+	public PosicaoMapa pegaPontoMaisProximo(double latitude, double longitude) 
 	{
-		PosicaoMapa posicaoMaisProxima = null;
-		double menorDistancia = Double.MAX_VALUE;
+		return pegaPontoMaisProximo(latitude, longitude, 0);
+	}
+
+	/**
+	 * Retorna o ponto mais próximo de uma posição
+	 */
+	public PosicaoMapa pegaPontoMaisProximo(double latitude, double longitude, int indiceInicio) 
+	{
+		if (posicoes.size() <= indiceInicio)
+			return null;
 		
-		for (PosicaoMapa posicao : posicoes)
+		PosicaoMapa posicaoMaisProxima = posicoes.get(indiceInicio);
+		double menorDistancia = Geodesic.distance(latitude, longitude, posicaoMaisProxima.getLatitude(), posicaoMaisProxima.getLongitude());;
+		
+		for (int i = indiceInicio+1; i < posicoes.size(); i++)
 		{
+			PosicaoMapa posicao = posicoes.get(i);
 			double distancia = Geodesic.distance(latitude, longitude, posicao.getLatitude(), posicao.getLongitude());
 			
 			if (distancia < menorDistancia)
@@ -119,5 +131,40 @@ public class Trajetoria
 		}
 		
 		return posicaoMaisProxima;
+	}
+
+	/**
+	 * Retorna o índice do ponto mais próximo de uma posição 
+	 */
+	public int pegaIndicePontoMaisProximo(double latitude, double longitude) 
+	{
+		return pegaIndicePontoMaisProximo(latitude, longitude, 0);
+	}
+
+	/**
+	 * Retorna o índice do ponto mais próximo de uma posição percorrendo a partir de um índice
+	 */
+	public int pegaIndicePontoMaisProximo(double latitude, double longitude, int indiceInicio) 
+	{
+		if (posicoes.size() <= indiceInicio)
+			return -1;
+		
+		int indiceMaisProximo = indiceInicio;
+		PosicaoMapa posicao = posicoes.get(indiceInicio);		
+		double menorDistancia = Geodesic.distance(latitude, longitude, posicao.getLatitude(), posicao.getLongitude());;
+		
+		for (int i = indiceInicio+1; i < posicoes.size(); i++)
+		{
+			posicao = posicoes.get(i);
+			double distancia = Geodesic.distance(latitude, longitude, posicao.getLatitude(), posicao.getLongitude());
+			
+			if (distancia < menorDistancia)
+			{
+				menorDistancia = distancia;
+				indiceMaisProximo = i;
+			}
+		}
+		
+		return indiceMaisProximo;
 	}
 }

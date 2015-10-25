@@ -79,14 +79,19 @@ public class DecoradorCaminhoAnimadoMarcadores implements IDecoradorMapas
 		writer.println("  setTimeout(function () {");
 		writer.println("    if (marker != null)");
 		writer.println("      marker.setMap(null);");
-		writer.println("");
+		writer.println();
 		writer.println("    marker = " + nome + "Coordinates[pos];");
 		writer.println("    marker.setMap(map);");
-		writer.println("");
+		writer.println();
+		writer.println("    var infowindow = new google.maps.InfoWindow({");
+		writer.println("      content: '' + pos");
+		writer.println("    });");
+		writer.println("    infowindow.open(map, marker);");
+		writer.println();
 		writer.println("    if (++pos < len) animationLoop();");
 		writer.println("  }, " + espera + ");");
 		writer.println("}");
-		writer.println("");
+		writer.println();
 
 		writer.println("animationLoop();");
 	}
