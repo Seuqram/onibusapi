@@ -1,12 +1,11 @@
 package br.unirio.onibus.api.support.geodesic;
 
-
 public class Geodesic
 {
 	private static final double EARTH_RADIUS = 6371.0; // em Km
 
 	/**
-	 * Método usado para calcular a distância entre dois pontos em coordenadas geográficas
+	 * Metodo usado para calcular a distancia entre dois pontos em coordenadas geograficas
 	 */
 	public static double distance(double lat1, double lon1, double lat2, double lon2)
 	{
@@ -14,7 +13,7 @@ public class Geodesic
 	}
 
 	/**
-	 * Método usado para calcular a distância entre dois pontos em coordenadas geográficas
+	 * Metodo usado para calcular a distancia entre dois pontos em coordenadas geograficas
 	 */
 	public static double distance(PosicaoMapa origem, PosicaoMapa destino)
 	{
@@ -22,7 +21,7 @@ public class Geodesic
 	}
 
 	/**
-	 * Calcula a distância entre dois pontos em uma esfera usando a fórmula do arco-cosseno
+	 * Calcula a distancia entre dois pontos em uma esfera usando a formula do arco-cosseno
 	 * 
 	 * Ver em https://en.wikipedia.org/wiki/Great-circle_distance
 	 */
@@ -35,8 +34,8 @@ public class Geodesic
 	}
 
 	/**
-	 * Calcula a distância em Km entre dois pontos em uma esfera usando a fórmula de Haversine, 
-	 * que é mais precisa para curtas distâncias
+	 * Calcula a distancia em Km entre dois pontos em uma esfera usando a formula de Haversine, 
+	 * que e mais precisa para curtas distancias
 	 * 
 	 * Ver em https://en.wikipedia.org/wiki/Great-circle_distance
 	 * Ver em http://www.movable-type.co.uk/scripts/latlong.html
@@ -51,8 +50,8 @@ public class Geodesic
 	}
 
 	/**
-	 * Calcula a distância entre dois pontos em uma esfera usando a fórmula de Vincenty, 
-	 * que não tem os problemas para longas distâncias da Haversine
+	 * Calcula a distancia entre dois pontos em uma esfera usando a formula de Vincenty, 
+	 * que nao tem os problemas para longas distancias da Haversine
 	 * 
 	 * Ver em https://en.wikipedia.org/wiki/Great-circle_distance
 	 */
@@ -67,7 +66,7 @@ public class Geodesic
 	}
 
 	/**
-	 * Calcula o ângulo de movimento entre dois pontos, em graus
+	 * Calcula o angulo de movimento entre dois pontos, em graus
 	 * 
 	 * Ver em http://www.movable-type.co.uk/scripts/latlong.html
 	 */
@@ -85,16 +84,16 @@ public class Geodesic
 	}
 
 	/**
-	 * Calcula a menor distância entre um ponto e uma trilha definida por dois pontos - método mais preciso
+	 * Calcula a menor distancia entre um ponto e uma trilha definida por dois pontos - metodo mais preciso
 	 * 
-	 * Ver em http://www.movable-type.co.uk/scripts/latlong.html, seção "Cross-track distance"
+	 * Ver em http://www.movable-type.co.uk/scripts/latlong.html, secao "Cross-track distance"
 	 */
 	public static double trackDistance(double latTarget, double lonTarget, double latStart, double lonStart, double latFinish, double lonFinish)
 	{
-		// Calcula a distância do ponto de interesse para o ponto de início do segmento
+		// Calcula a distancia do ponto de interesse para o ponto de inicio do segmento
 		double distanceStartTarget = distanceHaversine(latStart, lonStart, latTarget, lonTarget);
 
-		// Calcula a distância do ponto de interesse para o arco definido pelo segmento		
+		// Calcula a distancia do ponto de interesse para o arco definido pelo segmento		
 		double bearing13 = bearing(latStart, lonStart, latTarget, lonTarget);
 		double bearing12 = bearing(latStart, lonStart, latFinish, lonFinish);
 		double distance = Math.abs(Math.asin(Math.sin(distanceStartTarget / EARTH_RADIUS) * Math.sin(Math.toRadians(bearing13 - bearing12))) * EARTH_RADIUS);
@@ -113,19 +112,61 @@ public class Geodesic
 	    double latArcCross = Math.toDegrees(phi2);
 	    double lonArcCross = Math.toDegrees(lambda3);
 	    
-	    // Se o ponto de corte estiver dentro do segmento de arco, retorna a distância calculada
+	    // Se o ponto de corte estiver dentro do segmento de arco, retorna a distancia calculada
 		if (withinArcSegment(latArcCross, lonArcCross, latStart, lonStart, latFinish, lonFinish))
 			return distance;
 			
-		// Senão, calcula a distância do ponto de interesse para o ponto de término do segmento
+		// Senao, calcula a distancia do ponto de interesse para o ponto de termino do segmento
 		double distanceEndTarget = distanceHaversine(latFinish, lonFinish, latTarget, lonTarget);
 
-		// Retorna a menor distância entre o ponto de início e término do arco
+		// Retorna a menor distancia entre o ponto de inicio e termino do arco
 		return Math.min(distanceStartTarget, distanceEndTarget);
+	}
+
+	/**
+	 * Calcular o ponto mais prÃ³ximo em um arco definido por dois pontos
+	 * 
+	 * Ver em http://www.movable-type.co.uk/scripts/latlong.html, secao "Cross-track distance"
+	 */
+	public static PosicaoMapa trackClosestPoint(double latTarget, double lonTarget, double latStart, double lonStart, double latFinish, double lonFinish)
+	{
+		// Calcula a distancia do ponto de interesse para o ponto de inicio do segmento
+		double distanceStartTarget = distanceHaversine(latStart, lonStart, latTarget, lonTarget);
+
+		// Calcula a distancia do ponto de interesse para o arco definido pelo segmento		
+		double bearing13 = bearing(latStart, lonStart, latTarget, lonTarget);
+		double bearing12 = bearing(latStart, lonStart, latFinish, lonFinish);
+		double distance = Math.abs(Math.asin(Math.sin(distanceStartTarget / EARTH_RADIUS) * Math.sin(Math.toRadians(bearing13 - bearing12))) * EARTH_RADIUS);
+		
+		// Calcula o ponto de corte no arco
+	    double sigma = distance / EARTH_RADIUS;
+	    double theta = Math.toRadians(bearing12);
+
+	    double phi1 = Math.toRadians(latTarget);
+	    double phi2 = Math.asin(Math.sin(phi1) * Math.cos(sigma) + Math.cos(phi1) * Math.sin(sigma) * Math.cos(theta));
+
+	    double lambda1 = Math.toRadians(lonTarget);
+	    double lambda2 = lambda1 + Math.atan2(Math.sin(theta) * Math.sin(sigma) * Math.cos(phi1), Math.cos(sigma) - Math.sin(phi1) * Math.sin(phi2));
+	    double lambda3 = (lambda2 + 3*Math.PI) % (2 * Math.PI) - Math.PI;
+
+	    double latArcCross = Math.toDegrees(phi2);
+	    double lonArcCross = Math.toDegrees(lambda3);
+	    
+	    // Se o ponto de corte estiver dentro do segmento de arco, retorna o ponto na trajetoria
+		if (withinArcSegment(latArcCross, lonArcCross, latStart, lonStart, latFinish, lonFinish))
+			return new PosicaoMapa(latArcCross, lonArcCross);
+			
+		// Senao, calcula a distancia do ponto de interesse para o ponto de termino do segmento e retorna o extremo mais proximo
+		double distanceEndTarget = distanceHaversine(latFinish, lonFinish, latTarget, lonTarget);
+
+		if (distanceStartTarget < distanceEndTarget)
+			return new PosicaoMapa(latStart, lonStart);
+		
+		return new PosicaoMapa(latFinish, lonFinish);
 	}
 	
 	/**
-	 * Verifica se um ponto está dentro de um segmento de arco
+	 * Verifica se um ponto esta dentro de um segmento de arco
 	 */
 	private static boolean withinArcSegment(double latTarget, double lonTarget, double latStart, double lonStart, double latFinish, double lonFinish)
 	{
