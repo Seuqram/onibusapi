@@ -2,6 +2,10 @@ package br.unirio.onibus.api;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 
@@ -9,6 +13,8 @@ import br.unirio.onibus.api.gmaps.DecoradorCaminhoAnimadoMarcadores;
 import br.unirio.onibus.api.gmaps.DecoradorCaminhoEstaticoLinha;
 import br.unirio.onibus.api.gmaps.GeradorMapas;
 import br.unirio.onibus.api.model.Linha;
+import br.unirio.onibus.api.model.PosicaoPorMinuto;
+import br.unirio.onibus.api.model.PosicaoVeiculoPelaTrajetoria;
 import br.unirio.onibus.api.model.Repositorio;
 import br.unirio.onibus.api.model.Trajetoria;
 import br.unirio.onibus.api.model.TrajetoriaVeiculo;
@@ -23,7 +29,7 @@ import br.unirio.onibus.api.support.console.ListaConsole;
 public class MainProgram 
 {
 	//private static String DIRETORIO_PROCESSADOS = "d:\\projetos\\onibus\\processados";
-	private static String DIRETORIO_PROCESSADOS = "\\Users\\marcio\\Desktop\\onibus";
+	private static String DIRETORIO_PROCESSADOS = "c:\\Projeto\\onibus";
 	
 	/**
 	 * Programa principal
@@ -31,10 +37,35 @@ public class MainProgram
 	public static final void main(String[] args) throws Exception
 	{
 		//apresentaTemposLinhasCortadas();		
-		apresentaAnimacaoVeiculo(); 
+		//apresentaAnimacaoVeiculo(); 
 		//reduzTrajetoria();
+		geraPosicaoDeUmaLinhaPelosMinutos();
 		// TODO: fazer uma animação que mostra a posição de todos os veículos em um dia, passando por minuto
 		System.out.println("FIM");
+	}
+	
+	/**
+	 * @throws IOException 
+	 * 
+	 */
+	private static void geraPosicaoDeUmaLinhaPelosMinutos() throws IOException{
+		Repositorio repositorio = new Repositorio(DIRETORIO_PROCESSADOS);
+		Linha linha = new Linha("107");
+		DateTime data = new DateTime(2015, 9, 1, 0, 0, 0);
+		repositorio.carregaPosicoes(linha, data);
+		repositorio.carregaTrajeto(linha);
+		
+		PosicaoVeiculoPelaTrajetoria posicaoVeiculoPelaTrajetoria = new PosicaoVeiculoPelaTrajetoria(linha.getTrajetoIda(), linha.getTrajetoVolta());
+		
+		HashMap<String, PosicaoVeiculoPelaTrajetoria> veiculos = posicaoVeiculoPelaTrajetoria.geraPosicaoPelosMinutosDeUmaLinha(linha);
+		
+		for (Map.Entry<String, PosicaoVeiculoPelaTrajetoria> veiculo : veiculos.entrySet()){
+			String numeroVeiculo = veiculo.getKey();
+			PosicaoVeiculoPelaTrajetoria veiculoPelaTrajetoria = veiculo.getValue();
+			System.out.print(numeroVeiculo);
+			veiculoPelaTrajetoria.exibirResultado();
+			System.out.println();
+		}
 	}
 	
 	/**
@@ -66,10 +97,10 @@ public class MainProgram
 	 */
 	private static void apresentaAnimacaoVeiculo() throws Exception 
 	{
-		DateTime data = new DateTime(2015, 1, 6, 0, 0, 0);
+		DateTime data = new DateTime(2015, 9, 1, 0, 0, 0);
 		
 		Repositorio repositorio = new Repositorio(DIRETORIO_PROCESSADOS);
-		Linha linha = new Linha("310");
+		Linha linha = new Linha("107");
 		repositorio.carregaTrajeto(linha);
 		repositorio.carregaPosicoes(linha, data);
 

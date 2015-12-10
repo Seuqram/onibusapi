@@ -41,6 +41,14 @@ public class Trajetoria
 	{
 		return posicoes.get(indice);
 	}
+	
+	/**
+	 * Retorna proxima posicao da trajetoria
+	 */
+	public PosicaoMapa pegaProximaPosicao(PosicaoMapa posicao)
+	{
+		return posicoes.get(pegaIndicePosicao(posicao) + 1);
+	}
 
 	/**
 	 * Retorna o indice de uma posicao da trajetoria
@@ -48,6 +56,18 @@ public class Trajetoria
 	public int pegaIndicePosicao(PosicaoMapa posicao) 
 	{
 		return posicoes.indexOf(posicao);
+	}
+	
+	/**
+	 * Retorna o indice de uma posicao da trajetoria
+	 */
+	public int pegaIndicePosicaoPelaLatitudeLongitude(double latitude, double longitude) 
+	{
+		for (PosicaoMapa posicaoMapa : posicoes){
+			if (posicaoMapa.getLatitude() == latitude && posicaoMapa.getLongitude() == longitude)
+				return posicoes.indexOf(posicaoMapa);
+		}
+		return -1;
 	}
 	
 	/**
