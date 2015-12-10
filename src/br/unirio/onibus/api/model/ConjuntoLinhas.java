@@ -4,7 +4,7 @@ import java.util.HashMap;
 import org.joda.time.DateTime;
 
 /**
- * Classe que representa um conjunto de linhas de ônibus, com seus veículos e posições
+ * Classe que representa um conjunto de linhas de onibus, com seus veiculos e posicoes
  * 
  * @author Marcio Barros
  */
@@ -37,7 +37,7 @@ public class ConjuntoLinhas
 	}
 	
 	/**
-	 * Retorna o número de linhas
+	 * Retorna o numero de linhas
 	 */
 	public int contaLinhas()
 	{
@@ -53,7 +53,7 @@ public class ConjuntoLinhas
 	}
 
 	/**
-	 * Retorna o número de posições registradas no conjunto de linhas
+	 * Retorna o numero de posicoes registradas no conjunto de linhas
 	 */
 	public int contaPosicoes()
 	{
@@ -66,7 +66,7 @@ public class ConjuntoLinhas
 	}
 
 	/**
-	 * Remove todos os dados da memória
+	 * Remove todos os dados da memoria
 	 */
 	public void limpa()
 	{

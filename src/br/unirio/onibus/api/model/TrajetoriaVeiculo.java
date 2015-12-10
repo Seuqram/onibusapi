@@ -11,19 +11,19 @@ import br.unirio.onibus.api.support.geodesic.Geodesic;
 import br.unirio.onibus.api.support.geodesic.PosicaoMapa;
 
 /**
- * Classe que representa a trajetória de um veículo
+ * Classe que representa a trajetoria de um veiculo
  * 
  * @author Marcio
  */
 public class TrajetoriaVeiculo
 {
 	/**
-	 * Lista de posições da trajetória
+	 * Lista de posicoes da trajetoria
 	 */
 	private List<PosicaoVeiculo> posicoes;
 	
 	/**
-	 * Inicializa a trajetória
+	 * Inicializa a trajetoria
 	 */
 	public TrajetoriaVeiculo()
 	{
@@ -31,7 +31,7 @@ public class TrajetoriaVeiculo
 	}
 	
 	/**
-	 * Conta o número de posições na trajetória
+	 * Conta o numero de posicoes na trajetoria
 	 */
 	public int conta()
 	{
@@ -39,7 +39,7 @@ public class TrajetoriaVeiculo
 	}
 	
 	/**
-	 * Retorna uma posição da trajetória, dado seu índice
+	 * Retorna uma posicao da trajetoria, dado seu indice
 	 */
 	public PosicaoVeiculo pegaPosicaoIndice(int indice)
 	{
@@ -47,7 +47,7 @@ public class TrajetoriaVeiculo
 	}
 
 	/**
-	 * Verifica se dois horários são iguais
+	 * Verifica se dois horarios sao iguais
 	 */
 	private boolean equalTime(DateTime data1, DateTime data2)
 	{
@@ -55,7 +55,7 @@ public class TrajetoriaVeiculo
 	}
 
 	/**
-	 * Adiciona uma posição no veículo
+	 * Adiciona uma posicao no veiculo
 	 */
 	public void adiciona(DateTime data, double latitude, double longitude, double velocidade)
 	{
@@ -67,7 +67,7 @@ public class TrajetoriaVeiculo
 	}
 
 	/**
-	 * Retorna o índice de uma determinada posição do veículo
+	 * Retorna o indice de uma determinada posicao do veiculo
 	 */
 	public int pegaIndicePosicao(PosicaoVeiculo posicao) 
 	{
@@ -75,7 +75,7 @@ public class TrajetoriaVeiculo
 	}
 	
 	/**
-	 * Retorna as posições da trajetória
+	 * Retorna as posicoes da trajetoria
 	 */
 	public Iterable<PosicaoVeiculo> getPosicoes()
 	{
@@ -83,7 +83,7 @@ public class TrajetoriaVeiculo
 	}
 
 	/**
-	 * Remove todas as posições do veículo
+	 * Remove todas as posicoes do veiculo
 	 */
 	public void limpa() 
 	{
@@ -91,7 +91,7 @@ public class TrajetoriaVeiculo
 	}
 
 	/**
-	 * Calcula a distância de um ponto à trajetória
+	 * Calcula a distancia de um ponto a trajetoria
 	 */
 	public double calculaDistancia(double latitude, double longitude)
 	{
@@ -117,7 +117,7 @@ public class TrajetoriaVeiculo
 	}
 
 	/**
-	 * Ordena as posições do veículo
+	 * Ordena as posicoes do veiculo
 	 */
 	public void ordenaPosicoes() 
 	{
@@ -130,7 +130,7 @@ public class TrajetoriaVeiculo
 	}
 	
 	/**
-	 * Retorna o índice da primeira posição após um determinado horário - poderia ser uma busca binária
+	 * Retorna o indice da primeira posicao apos um determinado horario - poderia ser uma busca binaria
 	 */
 	private int pegaIndicePosicaoHorario(int hora, int minuto)
 	{
@@ -146,7 +146,7 @@ public class TrajetoriaVeiculo
 	}
 
 	/**
-	 * Remove uma posição do veículo, dado seu índice
+	 * Remove uma posicao do veiculo, dado seu indice
 	 */
 	public void removePosicao(int indice) 
 	{
@@ -154,7 +154,7 @@ public class TrajetoriaVeiculo
 	}
 
 	/**
-	 * Remove uma posição do veículo, dado seu índice
+	 * Remove uma posicao do veiculo, dado seu indice
 	 */
 	public void removePosicoesErro() 
 	{
@@ -164,7 +164,7 @@ public class TrajetoriaVeiculo
 	}
 
 	/**
-	 * Remove todas as posições dos veículos depois de um horário
+	 * Remove todas as posicoes dos veiculos depois de um horario
 	 */
 	public void removePosicoesDepoisHorario(int hora, int minuto) 
 	{
@@ -178,7 +178,7 @@ public class TrajetoriaVeiculo
 	}
 
 	/**
-	 * Remove todas as posições dos veículos antes de um horário
+	 * Remove todas as posicoes dos veiculos antes de um horario
 	 */
 	public void removePosicoesAntesHorario(int hora, int minuto) 
 	{
@@ -189,7 +189,7 @@ public class TrajetoriaVeiculo
 	}
 
 	/**
-	 * Retorna a trajetória do veículo como uma trajetória convencional
+	 * Retorna a trajetoria do veiculo como uma trajetoria convencional
 	 */
 	public Trajetoria asTrajetoria() 
 	{
@@ -202,7 +202,7 @@ public class TrajetoriaVeiculo
 	}
 
 	/**
-	 * Retorna a posição de um ônibus mais próxima a um ponto considerando uma posição inicial
+	 * Retorna a posicao de um onibus mais proxima a um ponto considerando uma posicao inicial
 	 */
 	public PosicaoVeiculo pegaPosicaoProximaPassagem(PosicaoMapa destino, PosicaoVeiculo posicaoInicial, double erroAceitavel)
 	{
@@ -230,7 +230,7 @@ public class TrajetoriaVeiculo
 	}
 
 	/**
-	 * Pega a posição em que o veículo passa em um determinado ponto a partir de uma determinada hora e minuto
+	 * Pega a posicao em que o veiculo passa em um determinado ponto a partir de uma determinada hora e minuto
 	 */
 	public PosicaoVeiculo pegaPosicaoProximaPassagem(PosicaoMapa destino, int hora, int minuto, double erroAceitavel)
 	{
@@ -249,7 +249,7 @@ public class TrajetoriaVeiculo
 	}
 	
 	/**
-	 * Pega o número de minutos para o veículo passar em um determinado ponto a partir de uma determinada hora e minuto
+	 * Pega o numero de minutos para o veiculo passar em um determinado ponto a partir de uma determinada hora e minuto
 	 */
 	public int pegaMinutosProximaPassagemPosicao(PosicaoMapa destino, int hora, int minuto, double erroAceitavel)
 	{

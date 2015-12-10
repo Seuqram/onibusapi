@@ -6,7 +6,7 @@ import org.joda.time.DateTime;
 import br.unirio.onibus.api.support.geodesic.PosicaoMapa;
 
 /**
- * Classe que representa a posição de um veículo em um instante de tempo 
+ * Classe que representa a posicao de um veiculo em um instante de tempo 
  * 
  * @author Marcio Barros
  */
@@ -18,7 +18,7 @@ public class PosicaoVeiculo extends PosicaoMapa
 	private @Getter int indiceTrajeto; 
 	
 	/**
-	 * Inicializa a posição do veículo
+	 * Inicializa a posicao do veiculo
 	 */
 	public PosicaoVeiculo(DateTime data, double latitude, double longitude, double velocidade)
 	{
@@ -30,7 +30,7 @@ public class PosicaoVeiculo extends PosicaoMapa
 	}
 
 	/**
-	 * Verifica se o horário da posição é compatível com um horário recebido
+	 * Verifica se o horario da posicao e compativel com um horario recebido
 	 */
 	public boolean horarioIgualOuPosterior(int hora, int minuto)
 	{
@@ -38,7 +38,7 @@ public class PosicaoVeiculo extends PosicaoMapa
 	}
 	
 	/**
-	 * Indica que a posição não faz parte dos trajetos de ida e volta do veículo
+	 * Indica que a posicao nao faz parte dos trajetos de ida e volta do veiculo
 	 */
 	public void setPosicaoErro()
 	{
@@ -47,7 +47,7 @@ public class PosicaoVeiculo extends PosicaoMapa
 	}
 	
 	/**
-	 * Indica que a posição faz parte do trajeto de ida do veículo
+	 * Indica que a posicao faz parte do trajeto de ida do veiculo
 	 */
 	public void setPosicaoTrajetoIda(int indicePosicao)
 	{
@@ -56,7 +56,7 @@ public class PosicaoVeiculo extends PosicaoMapa
 	}
 	
 	/**
-	 * Indica que a posição faz parte do trajeto de volta do veículo
+	 * Indica que a posicao faz parte do trajeto de volta do veiculo
 	 */
 	public void setPosicaoTrajetoVolta(int indicePosicao)
 	{

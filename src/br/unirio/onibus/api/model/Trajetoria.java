@@ -7,19 +7,19 @@ import br.unirio.onibus.api.support.geodesic.Geodesic;
 import br.unirio.onibus.api.support.geodesic.PosicaoMapa;
 
 /**
- * Classe que representa uma trajetória
+ * Classe que representa uma trajetoria
  * 
  * @author Marcio
  */
 public class Trajetoria
 {
 	/**
-	 * Lista de posições do trajeto
+	 * Lista de posicoes do trajeto
 	 */
 	private List<PosicaoMapa> posicoes;
 	
 	/**
-	 * Inicializa a trajetória
+	 * Inicializa a trajetoria
 	 */
 	public Trajetoria()
 	{
@@ -27,7 +27,7 @@ public class Trajetoria
 	}
 	
 	/**
-	 * Conta o número de posições na trajetória
+	 * Conta o numero de posicoes na trajetoria
 	 */
 	public int conta()
 	{
@@ -35,7 +35,7 @@ public class Trajetoria
 	}
 	
 	/**
-	 * Retorna uma posição da trajetória, dado seu índice
+	 * Retorna uma posicao da trajetoria, dado seu indice
 	 */
 	public PosicaoMapa pegaPosicaoIndice(int indice)
 	{
@@ -43,7 +43,7 @@ public class Trajetoria
 	}
 
 	/**
-	 * Retorna o índice de uma posição da trajetória
+	 * Retorna o indice de uma posicao da trajetoria
 	 */
 	public int pegaIndicePosicao(PosicaoMapa posicao) 
 	{
@@ -51,7 +51,7 @@ public class Trajetoria
 	}
 	
 	/**
-	 * Adiciona uma posição na trajetória
+	 * Adiciona uma posicao na trajetoria
 	 */
 	public void adiciona(PosicaoMapa novaPosicao) 
 	{
@@ -66,7 +66,7 @@ public class Trajetoria
 	}
 	
 	/**
-	 * Retorna as posições da trajetória
+	 * Retorna as posicoes da trajetoria
 	 */
 	public Iterable<PosicaoMapa> pegaPosicoes()
 	{
@@ -74,7 +74,7 @@ public class Trajetoria
 	}
 
 	/**
-	 * Calcula a distância de um ponto à trajetória
+	 * Calcula a distancia de um ponto a trajetoria
 	 */
 	public double calculaDistancia(double latitude, double longitude)
 	{
@@ -100,7 +100,7 @@ public class Trajetoria
 	}
 
 	/**
-	 * Retorna o ponto mais próximo de uma posição
+	 * Retorna o ponto mais proximo de uma posicao
 	 */
 	public PosicaoMapa pegaPontoMaisProximo(double latitude, double longitude) 
 	{
@@ -108,7 +108,7 @@ public class Trajetoria
 	}
 
 	/**
-	 * Retorna o ponto mais próximo de uma posição
+	 * Retorna o ponto mais proximo de uma posicao
 	 */
 	public PosicaoMapa pegaPontoMaisProximo(double latitude, double longitude, int indiceInicio) 
 	{
@@ -134,7 +134,7 @@ public class Trajetoria
 	}
 
 	/**
-	 * Retorna o índice do ponto mais próximo de uma posição 
+	 * Retorna o indice do ponto mais proximo de uma posicao 
 	 */
 	public int pegaIndicePontoMaisProximo(double latitude, double longitude) 
 	{
@@ -142,7 +142,7 @@ public class Trajetoria
 	}
 
 	/**
-	 * Retorna o índice do ponto mais próximo de uma posição percorrendo a partir de um índice
+	 * Retorna o indice do ponto mais proximo de uma posicao percorrendo a partir de um indice
 	 */
 	public int pegaIndicePontoMaisProximo(double latitude, double longitude, int indiceInicio) 
 	{

@@ -11,7 +11,7 @@ import br.unirio.onibus.api.reader.CarregadorPosicoes;
 import br.unirio.onibus.api.reader.CarregadorTrajeto;
 
 /**
- * Classe de fachada que permite acesso aos dados dos ônibus
+ * Classe de fachada que permite acesso aos dados dos onibus
  * 
  * @author marcio.barros
  */
@@ -21,7 +21,7 @@ public class Repositorio
 	private DateTimeFormatter dateformatterLoader;
 
 	/**
-	 * Inicializa o repositório
+	 * Inicializa o repositorio
 	 */
 	public Repositorio(String diretorio)
 	{
@@ -39,7 +39,7 @@ public class Repositorio
 	}
 	
 	/**
-	 * Carrega o trajeto de uma linha de ônibus
+	 * Carrega o trajeto de uma linha de onibus
 	 */
 	public boolean carregaTrajeto(Linha linha)
 	{
@@ -50,7 +50,7 @@ public class Repositorio
 	}
 	
 	/**
-	 * Carrega os dados do ônibus em uma data
+	 * Carrega os dados do onibus em uma data
 	 */
 	public boolean carregaPosicoes(Linha linha, DateTime data)
 	{

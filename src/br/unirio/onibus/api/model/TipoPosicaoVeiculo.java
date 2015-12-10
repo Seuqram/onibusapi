@@ -1,7 +1,7 @@
 package br.unirio.onibus.api.model;
 
 /**
- * Tipos de posição de veículo, de acordo com a trajetória
+ * Tipos de posicao de veiculo, de acordo com a trajetoria
  * 
  * @author Marcio
  */

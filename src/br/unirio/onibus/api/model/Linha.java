@@ -9,7 +9,7 @@ import org.joda.time.DateTime;
 import br.unirio.onibus.api.support.geodesic.PosicaoMapa;
 
 /**
- * Classe que representa uma linha de ônibus, com seus veículos e posições
+ * Classe que representa uma linha de onibus, com seus veiculos e posicoes
  * 
  * @author Marcio Barros
  */
@@ -21,22 +21,22 @@ public class Linha
 	private @Getter String identificador;
 	
 	/**
-	 * Veículos da linha
+	 * veiculos da linha
 	 */
 	private List<Veiculo> veiculos;
 	
 	/**
-	 * Trajeto de ida do ônibus
+	 * Trajeto de ida do onibus
 	 */
 	private @Getter Trajetoria trajetoIda;
 	
 	/**
-	 * Trajeto de volta do ônibus
+	 * Trajeto de volta do onibus
 	 */
 	private @Getter Trajetoria trajetoVolta;
 	
 	/**
-	 * Pontos de parada do ônibus
+	 * Pontos de parada do onibus
 	 */
 	private @Getter Trajetoria pontosParada;
 	
@@ -53,7 +53,7 @@ public class Linha
 	}
 
 	/**
-	 * Adiciona uma posição de veículo na linha
+	 * Adiciona uma posicao de veiculo na linha
 	 */
 	public void adiciona(String numeroSerie, DateTime data, double latitude, double longitude, double velocidade)
 	{
@@ -69,7 +69,7 @@ public class Linha
 	}
 
 	/**
-	 * Conta o número de veículos
+	 * Conta o numero de veiculos
 	 */
 	public int contaVeiculos()
 	{
@@ -77,7 +77,7 @@ public class Linha
 	}
 
 	/**
-	 * Retorna um veículo, dado seu índice
+	 * Retorna um veiculo, dado seu indice
 	 */
 	public Veiculo pegaVeiculoIndice(int indice)
 	{
@@ -85,7 +85,7 @@ public class Linha
 	}
 
 	/**
-	 * Retorna um veículo, dado seu número de série
+	 * Retorna um veiculo, dado seu numero de serie
 	 */
 	public Veiculo pegaVeiculoNumero(String numeroSerie)
 	{
@@ -97,7 +97,7 @@ public class Linha
 	}
 
 	/**
-	 * Retorna uma lista de veículos
+	 * Retorna uma lista de veiculos
 	 */
 	public Iterable<Veiculo> getVeiculos()
 	{
@@ -105,7 +105,7 @@ public class Linha
 	}
 
 	/**
-	 * Remove um veículo da linha
+	 * Remove um veiculo da linha
 	 */
 	public void removeVeiculo(int indice) 
 	{
@@ -113,7 +113,7 @@ public class Linha
 	}
 
 	/**
-	 * Remove um conjunto de veículos da linha
+	 * Remove um conjunto de veiculos da linha
 	 */
 	public void removeVeiculos(int minIndice, int maxIndice) 
 	{
@@ -122,7 +122,7 @@ public class Linha
 	}
 
 	/**
-	 * Remove todas as posições dos ônibus
+	 * Remove todas as posicoes dos onibus
 	 */
 	public void limpaVeiculos() 
 	{
@@ -130,7 +130,7 @@ public class Linha
 	}
 	
 	/**
-	 * Conta o número de posições registradas na linha
+	 * Conta o numero de posicoes registradas na linha
 	 */
 	public int contaPosicoes()
 	{
@@ -143,7 +143,7 @@ public class Linha
 	}
 
 	/**
-	 * Ordena as posições de todos os veículos
+	 * Ordena as posicoes de todos os veiculos
 	 */
 	public void ordenaPosicoes() 
 	{
@@ -152,7 +152,7 @@ public class Linha
 	}
 
 	/**
-	 * Remove todas as posições dos veículos depois de um horário
+	 * Remove todas as posicoes dos veiculos depois de um horario
 	 */
 	public void removePosicoesDepoisHorario(int hora, int minuto) 
 	{
@@ -161,7 +161,7 @@ public class Linha
 	}
 
 	/**
-	 * Remove todas as posições dos veículos antes de um horário
+	 * Remove todas as posicoes dos veiculos antes de um horario
 	 */
 	public void removePosicoesAntesHorario(int hora, int minuto) 
 	{
@@ -170,7 +170,7 @@ public class Linha
 	}
 
 	/**
-	 * Adiciona uma posição no trajeto de ida do ônibus
+	 * Adiciona uma posicao no trajeto de ida do onibus
 	 */
 	public void adicionaTrajetoIda(double latitude, double longitude) 
 	{
@@ -178,7 +178,7 @@ public class Linha
 	}
 
 	/**
-	 * Adiciona uma posição no trajeto de volta do ônibus
+	 * Adiciona uma posicao no trajeto de volta do onibus
 	 */
 	public void adicionaTrajetoVolta(double latitude, double longitude) 
 	{
@@ -186,7 +186,7 @@ public class Linha
 	}
 
 	/**
-	 * Adiciona um ponto de parada na linha de ônibus
+	 * Adiciona um ponto de parada na linha de onibus
 	 */
 	public void adicionaParada(double latitude, double longitude) 
 	{
@@ -194,7 +194,7 @@ public class Linha
 	}
 
 	/**
-	 * Retorna o próximo veículo a passar por um ponto em uma hora/minuto
+	 * Retorna o proximo veiculo a passar por um ponto em uma hora/minuto
 	 */
 	public Veiculo pegaProximoVeiculo(PosicaoMapa destino, int hora, int minuto, double erroAceitavel)
 	{
