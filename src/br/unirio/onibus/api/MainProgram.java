@@ -9,12 +9,12 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 
+import br.unirio.onibus.api.controllers.mapaminuto.PosicaoPorMinuto;
+import br.unirio.onibus.api.controllers.mapaminuto.PosicaoVeiculoPelaTrajetoria;
 import br.unirio.onibus.api.gmaps.DecoradorCaminhoAnimadoMarcadores;
 import br.unirio.onibus.api.gmaps.DecoradorCaminhoEstaticoLinha;
 import br.unirio.onibus.api.gmaps.GeradorMapas;
 import br.unirio.onibus.api.model.Linha;
-import br.unirio.onibus.api.model.PosicaoPorMinuto;
-import br.unirio.onibus.api.model.PosicaoVeiculoPelaTrajetoria;
 import br.unirio.onibus.api.model.Repositorio;
 import br.unirio.onibus.api.model.Trajetoria;
 import br.unirio.onibus.api.model.TrajetoriaVeiculo;
@@ -40,7 +40,7 @@ public class MainProgram
 		//apresentaAnimacaoVeiculo(); 
 		//reduzTrajetoria();
 		geraPosicaoDeUmaLinhaPelosMinutos();
-		// TODO: fazer uma animação que mostra a posição de todos os veículos em um dia, passando por minuto
+		// TODO: fazer uma animaï¿½ï¿½o que mostra a posiï¿½ï¿½o de todos os veï¿½culos em um dia, passando por minuto
 		System.out.println("FIM");
 	}
 	
@@ -93,7 +93,7 @@ public class MainProgram
 	}
 
 	/**
-	 * Apresenta uma animação de um veículo
+	 * Apresenta uma animaï¿½ï¿½o de um veï¿½culo
 	 */
 	private static void apresentaAnimacaoVeiculo() throws Exception 
 	{
@@ -120,7 +120,7 @@ public class MainProgram
 	}
 
 	/**
-	 * Reduz a trajetória de ida e volta de uma linha de ônibus
+	 * Reduz a trajetï¿½ria de ida e volta de uma linha de ï¿½nibus
 	 */
 	private static void reduzTrajetoria() throws IOException 
 	{
@@ -138,10 +138,10 @@ public class MainProgram
 		redutorVolta.reduzMaximaDistancia(0.001);
 		Trajetoria trajetoriaVoltaReduzida = redutorVolta.pegaTrajetoria();
 		
-		System.out.println("Numero de posições do trajeto de ida original: " + linha.getTrajetoIda().conta());
-		System.out.println("Numero de posições do trajeto de ida reduzido: " + trajetoriaIdaReduzida.conta());
-		System.out.println("Numero de posições do trajeto de volta original: " + linha.getTrajetoVolta().conta());
-		System.out.println("Numero de posições do trajeto de volta reduzido: " + trajetoriaVoltaReduzida.conta());
+		System.out.println("Numero de posiï¿½ï¿½es do trajeto de ida original: " + linha.getTrajetoIda().conta());
+		System.out.println("Numero de posiï¿½ï¿½es do trajeto de ida reduzido: " + trajetoriaIdaReduzida.conta());
+		System.out.println("Numero de posiï¿½ï¿½es do trajeto de volta original: " + linha.getTrajetoVolta().conta());
+		System.out.println("Numero de posiï¿½ï¿½es do trajeto de volta reduzido: " + trajetoriaVoltaReduzida.conta());
 		
 		GeradorMapas gerador = new GeradorMapas();
 		gerador.adiciona(new DecoradorCaminhoEstaticoLinha(linha.getTrajetoIda()).setNome("ida").setLargura(5).setCor("#7F0000"));
